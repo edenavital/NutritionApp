@@ -5,7 +5,7 @@ import Title from "../../components/Title/Title";
 import Input from "../../components/Input/Input";
 import Label from "../../components/Label/Label";
 import Button from "../../components/Button/Button";
-
+import { Link } from "react-router-dom";
 class Login extends Component {
   state = {
     person: {
@@ -71,14 +71,17 @@ class Login extends Component {
             required
           />
 
-          <div className="LoginOptions">
-            <Button type="submit">SIGN IN</Button>
-
-            <p>
-              <a href="#">SIGN UP</a> FOR AN ACCOUNT
-            </p>
-          </div>
+          <Button
+            type="submit"
+            dynamicstyle={{ marginTop: "30px", marginBottom: "15px" }}
+          >
+            SIGN UP
+          </Button>
         </form>
+
+        <p className="Signin">
+          <Link to="/register">SIGN UP</Link> FOR AN ACCOUNT
+        </p>
       </div>
     );
   }

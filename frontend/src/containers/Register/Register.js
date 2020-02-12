@@ -6,6 +6,7 @@ import Input from "../../components/Input/Input";
 import Label from "../../components/Label/Label";
 import Button from "../../components/Button/Button";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 class Register extends Component {
   state = {
@@ -21,7 +22,6 @@ class Register extends Component {
   handleInputChange = e => {
     const key = e.target.id;
     const value = e.target.value;
-    console.log("KEY:", key + " VALUE: ", value);
 
     const updatedPerson = this.state.person;
     updatedPerson[key] = value;
@@ -118,7 +118,7 @@ class Register extends Component {
         </form>
 
         <p className="Signup">
-          <a href="#">SIGN UP</a> FOR AN ACCOUNT
+          <Link to="/login">SIGN IN</Link> FOR AN ACCOUNT
         </p>
       </div>
     );

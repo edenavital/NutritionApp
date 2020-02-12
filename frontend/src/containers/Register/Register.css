@@ -14,7 +14,7 @@
 
 .Register form {
   position: absolute;
-  bottom: -0%;
+  bottom: 0%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
@@ -28,7 +28,7 @@
 
 .Register .Signup {
   position: absolute;
-  bottom: 0px;
+  bottom: 3%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: inherit;
