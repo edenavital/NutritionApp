@@ -7,7 +7,8 @@ import Label from "../../components/Label/Label";
 import Button from "../../components/Button/Button";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import { connect } from "react-redux";
+import { errorNotification, successNotification } from "../../redux";
 class Register extends Component {
   state = {
     person: {
@@ -44,15 +45,19 @@ class Register extends Component {
       .post("/api/register", person)
       .then(res => {
         console.log(res.data);
+        this.props.successNotification();
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        this.props.errorNotification();
+      });
   };
 
   render() {
     return (
       <div className="Register">
         <Icon iconName="register" />
-
+        {/* <button onClick={this.props.errorNotification}>XXX</button> */}
         <div className="description">
           <Title dynamicStyle={{ marginTop: "15px" }}>
             Welcome to Nutrition App
@@ -125,4 +130,15 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    errorNotification: () => errorNotification(),
+    successNotification: () => successNotification()
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

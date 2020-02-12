@@ -3,9 +3,12 @@ import "./App.css";
 import Login from "./containers/Login/Login";
 import Register from "./containers/Register/Register";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { NotificationContainer } from "react-notifications";
+
 const App = () => {
   return (
     <div className="App">
+      <NotificationContainer />
       <Router>
         {/* <Redirect exact from="/" to="login" /> */}
         <Switch>
