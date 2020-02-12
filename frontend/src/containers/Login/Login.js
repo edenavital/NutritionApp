@@ -6,6 +6,7 @@ import Input from "../../components/Input/Input";
 import Label from "../../components/Label/Label";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
+import axios from "axios";
 class Login extends Component {
   state = {
     person: {
@@ -24,23 +25,23 @@ class Login extends Component {
     this.setState({ person: updatedPerson });
   };
 
-  clearForm = () => {
-    const updatedPerson = {
-      username: "",
-      password: ""
-    };
-    this.setState({ person: updatedPerson });
-  };
-
-  //Should check some things from the backend - database...
   onSubmitForm = e => {
     e.preventDefault();
     const person = this.state.person;
 
-    console.log(`Sending to BACKEND the following person:
+    console.log(`VALIDATION TESTING - Sending to BACKEND the following person:
         username - ${person.username},
         password - ${person.password}
     `);
+
+    axios
+      .post("/api/login", person)
+      .then(res => {
+        console.log("SUCCESSFULLY LOGGED, REDIRECT TO A NEW COMPONENT NAMED X");
+      })
+      .catch(err => {
+        console.log("Credentials not match ...");
+      });
   };
 
   render() {

@@ -37,7 +37,7 @@ app.post("/api/register", (req, res) => {
   console.log("REQ BODY:", req.body);
 
   //Destruct the data from the client
-  ({ username, password, age, height, weight } = req.body);
+  let { username } = req.body;
 
   //Connect to the DB - parameter is a function that gets err - error, db - new client inside the pool, done - release function
   pool.connect((err, db, done) => {
@@ -53,22 +53,41 @@ app.post("/api/register", (req, res) => {
 
         if (dataFromDatabase.length === 0) {
           console.log("User is being created");
-          const values = [username, password, age, height, weight];
-          createNewPerson(values);
+          createNewPerson(req.body, res);
         } else {
           return res.status(303).send({ msg: "User is already created " });
         }
 
         if (err) return res.status(400).send(err);
-
-        return res.status(200).send(table.rows);
       }
     );
   });
 });
 
-const createNewPerson = values => {
+//Invokes if a person is not exists, so I am allowed to insert it!
+const createNewPerson = (newUser, res) => {
+  let { username, password, age, height, weight } = newUser;
+
+  const values = [username, password, age, height, weight];
   console.log("Im inside createNewPerson!:", values);
+
+  pool.connect((err, db, done) => {
+    if (err) return res.status(400).send(err);
+
+    db.query(
+      "INSERT INTO person (username, password, age, height, weight) VALUES($1, $2, $3, $4, $5)",
+      [...values],
+      err => {
+        done();
+        if (err) return res.status(400).send(err);
+
+        console.log("A new user is inserted successfully!");
+        return res.status(201).send({ msg: "New user has been created" });
+      }
+    );
+  });
 };
+
+//Create a Login check - if the username and password match to one of the records in DB than LOGGED!
 
 app.listen(PORT, () => console.log(`Server is listening to port ${PORT}`));

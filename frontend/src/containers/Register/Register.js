@@ -46,6 +46,7 @@ class Register extends Component {
       .then(res => {
         console.log(res.data);
         this.props.successNotification();
+        this.clearForm();
       })
       .catch(err => {
         console.log(err);
@@ -53,15 +54,25 @@ class Register extends Component {
       });
   };
 
+  clearForm = () => {
+    this.setState({
+      person: {
+        username: "",
+        password: "",
+        age: "",
+        height: "",
+        weight: ""
+      }
+    });
+  };
+
   render() {
     return (
       <div className="Register">
         <Icon iconName="register" />
-        {/* <button onClick={this.props.errorNotification}>XXX</button> */}
+
         <div className="description">
-          <Title dynamicStyle={{ marginTop: "15px" }}>
-            Welcome to Nutrition App
-          </Title>
+          <Title>Welcome to Nutrition App</Title>
           <p>Sign up form</p>
         </div>
 
