@@ -1,0 +1,37 @@
+.Login {
+  position: relative;
+  width: 99vw;
+  height: 99vh;
+  background: #fff;
+  color: grey;
+  border: 1px solid black;
+  border-radius: 50px;
+}
+
+.Login .description {
+  margin-top: 10px;
+}
+
+.Login form {
+  position: absolute;
+  bottom: -13%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-self: center;
+  width: 65%;
+}
+
+.Login form p {
+  margin-top: 15px;
+}
+
+.Login form p a {
+  color: blue;
+}
+
+.Login form .LoginOptions {
+  margin-top: 15px;
+}

@@ -1,0 +1,23 @@
+.Button {
+  margin-top: 15px;
+  width: 100%;
+  transition: 0.3s all;
+  color: #fff;
+  height: 5vh;
+  background-color: #41b22a;
+  border-radius: 50px;
+  outline: none;
+  border: 3px solid #41b22a;
+  -webkit-box-shadow: 0px 3px 5px 2px rgba(0, 0, 0, 0.42);
+  -moz-box-shadow: 0px 3px 5px 2px rgba(0, 0, 0, 0.42);
+  box-shadow: 0px 3px 5px 2px rgba(0, 0, 0, 0.42);
+}
+
+.Button:active {
+  background-color: green;
+  border: 3px solid green;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.44);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.44);
+}

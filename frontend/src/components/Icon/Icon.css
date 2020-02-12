@@ -1,0 +1,8 @@
+.Icon {
+  font-size: 0px;
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  mask-repeat: no-repeat;
+  background-color: #41b22a;
+}

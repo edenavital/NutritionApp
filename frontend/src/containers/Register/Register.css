@@ -1,0 +1,39 @@
+.Register {
+  position: relative;
+  width: 99vw;
+  height: 99vh;
+  background: #fff;
+  color: grey;
+  border: 1px solid black;
+  border-radius: 50px;
+}
+
+.Register .description {
+  margin-top: 10px;
+}
+
+.Register form {
+  position: absolute;
+  bottom: -0%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-self: center;
+  width: 65%;
+  height: 40%;
+  overflow-y: auto;
+}
+
+.Register .Signup {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: inherit;
+}
+
+.Register .Signup a {
+  color: blue;
+}
