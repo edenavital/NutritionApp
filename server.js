@@ -89,5 +89,42 @@ const createNewPerson = (newUser, res) => {
 };
 
 //Create a Login check - if the username and password match to one of the records in DB than LOGGED!
+app.post("/api/login", (req, res) => {
+  console.log("inside backend - /api/login");
+  console.log("REQ BODY:", req.body);
+
+  //Destruct the data from the client
+  let { username, password } = req.body;
+  console.log("password from user", password);
+
+  //Connect to the DB - parameter is a function that gets err - error, db - new client inside the pool, done - release function
+  pool.connect((err, db, done) => {
+    if (err) return res.status(400).send(err);
+
+    db.query(
+      `SELECT person.username, person.password FROM person WHERE username='${username}'`,
+      (err, table) => {
+        done();
+
+        //Same the array of objects we get from the database
+        const dataFromDatabase = table.rows[0];
+        console.log("dataFromDatabase:", password, dataFromDatabase.password);
+
+        //If we got nothing from the database, it means the username is not exist in the db
+        if (dataFromDatabase.length === 0) {
+          res.status(403).send({ msg: "Username is not exist" });
+          //We got something because the username exists, however - if the password is not matched it means the password is wrong
+        } else if (password !== dataFromDatabase.password) {
+          res.status(403).send({ msg: "Password is not matched" });
+          //Username and password are matched, which means we can LOGIN!
+        } else {
+          return res.status(202).send({ msg: "Logged In!" });
+        }
+
+        if (err) return res.status(400).send(err);
+      }
+    );
+  });
+});
 
 app.listen(PORT, () => console.log(`Server is listening to port ${PORT}`));

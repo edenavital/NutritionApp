@@ -7,6 +7,9 @@ import Label from "../../components/Label/Label";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
 import axios from "axios";
+
+//LINE 40 LOGIN.JS, LINE 91 SERVER.JS - continue the login functionality from the backend and frontend!
+
 class Login extends Component {
   state = {
     person: {
@@ -18,7 +21,6 @@ class Login extends Component {
   handleInputChange = e => {
     const key = e.target.id;
     const value = e.target.value;
-    console.log("KEY:", key + " VALUE: ", value);
 
     const updatedPerson = this.state.person;
     updatedPerson[key] = value;
@@ -37,6 +39,8 @@ class Login extends Component {
     axios
       .post("/api/login", person)
       .then(res => {
+        //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
+        //CREATE A NEW COMPONENT NAMED X IDC...
         console.log("SUCCESSFULLY LOGGED, REDIRECT TO A NEW COMPONENT NAMED X");
       })
       .catch(err => {
