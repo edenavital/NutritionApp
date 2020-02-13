@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import "./Home.css";
 import Icon from "../../components/Icon/Icon";
 import { connect } from "react-redux";
-import SideDrawer from "./../../components/SideDrawer/SideDrawer";
 import { toggleSideDrawer } from "../../redux";
+import SideDrawer from "../../components/SideDrawer/SideDrawer";
 class Home extends Component {
   render() {
     //const { username } = this.props.credentials;
@@ -11,12 +11,13 @@ class Home extends Component {
     return (
       <div className="Home">
         <SideDrawer />
+
         <Icon
           iconName="menu"
           width="40px"
           height="40px"
           position="absolute"
-          right="8%"
+          left="8%"
           top="3%"
           cursor="pointer"
           onClick={this.props.toggleSideDrawer}

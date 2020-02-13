@@ -1,29 +1,50 @@
 import React from "react";
-import "./SideDrawer.css";
 import { connect } from "react-redux";
+import "./SideDrawer.css";
+import Backdrop from "../Backdrop/Backdrop";
+import { CSSTransition } from "react-transition-group";
 import { toggleSideDrawer } from "../../redux";
 import { Link } from "react-router-dom";
 
 const SideDrawer = props => {
-  return (
-    props.isDrawerVisible && (
-      <div className="SideDrawer">
-        <div className="backdrop" onClick={props.toggleSideDrawer}></div>
-        <div className="drawer">
-          <h3>Menu</h3>
+  const child = (
+    <div className="SideDrawer">
+      <h3>Menu</h3>
 
-          <ul>
-            <li>
-              <Link to="/home">Home</Link>
-            </li>
-            <li>Add Food</li>
-            <li>
-              <Link to="/login">Logout</Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-    )
+      <ul>
+        <li>
+          <Link to="/home">Home</Link>
+        </li>
+        <li>Add Food</li>
+        <li>
+          <Link to="/login">Logout</Link>
+        </li>
+      </ul>
+    </div>
+  );
+
+  return (
+    <>
+      <CSSTransition
+        in={props.isDrawerVisible}
+        classNames={"Backdrop"}
+        timeout={750}
+        unmountOnExit
+        appear
+      >
+        <Backdrop toggleSideDrawer={props.toggleSideDrawer} />
+      </CSSTransition>
+
+      <CSSTransition
+        in={props.isDrawerVisible}
+        classNames={"SideDrawer"}
+        timeout={750}
+        unmountOnExit
+        appear
+      >
+        {child}
+      </CSSTransition>
+    </>
   );
 };
 
