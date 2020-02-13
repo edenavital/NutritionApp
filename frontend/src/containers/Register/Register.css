@@ -37,3 +37,21 @@
 .Register .Signup a {
   color: blue;
 }
+
+.Register .gender {
+  border-bottom: 1px solid #41b22a;
+
+  padding: 10px 0px 10px 0px;
+  display: inline-grid;
+  grid-auto-flow: dense;
+  align-items: center;
+}
+
+.Register .gender label {
+  grid-column: 1;
+  margin-top: 5px;
+}
+
+.Register .gender input {
+  margin-top: 5px;
+}

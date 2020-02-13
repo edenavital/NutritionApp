@@ -8,12 +8,13 @@ import Button from "../../components/Button/Button";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { errorNotification, successNotification } from "../../redux";
+import { errorNot_UserExists, successNot_UserCreated } from "../../redux";
 class Register extends Component {
   state = {
     person: {
       username: "",
       password: "",
+      gender: "",
       age: "",
       height: "",
       weight: ""
@@ -23,7 +24,7 @@ class Register extends Component {
   handleInputChange = e => {
     const key = e.target.id;
     const value = e.target.value;
-
+    console.log("key and values are: ", key, value);
     const updatedPerson = this.state.person;
     updatedPerson[key] = value;
     this.setState({ person: updatedPerson });
@@ -36,6 +37,7 @@ class Register extends Component {
     console.log(`Sending to BACKEND the following person:
             username - ${person.username},
             password - ${person.password},
+            gender - ${person.gender},
             age - ${person.age},
             height - ${person.height},
             weight - ${person.weight}
@@ -45,12 +47,12 @@ class Register extends Component {
       .post("/api/register", person)
       .then(res => {
         console.log(res.data);
-        this.props.successNotification();
+        this.props.successNot_UserCreated();
         this.clearForm();
       })
       .catch(err => {
         console.log(err);
-        this.props.errorNotification();
+        this.props.errorNot_UserExists();
       });
   };
 
@@ -59,6 +61,7 @@ class Register extends Component {
       person: {
         username: "",
         password: "",
+        gender: "",
         age: "",
         height: "",
         weight: ""
@@ -69,7 +72,7 @@ class Register extends Component {
   render() {
     return (
       <div className="Register">
-        <Icon iconName="register" />
+        <Icon iconName="register" width="100px" height="100px" />
 
         <div className="description">
           <Title>Welcome to Nutrition App</Title>
@@ -93,6 +96,32 @@ class Register extends Component {
             onChange={this.handleInputChange}
             required
           />
+          <div className="gender">
+            <Label htmlFor="male">
+              Male
+              <Input
+                type="radio"
+                value="Male"
+                id="gender"
+                name="gender"
+                onChange={this.handleInputChange}
+                required
+              />
+            </Label>
+
+            <Label htmlFor="female">
+              Female
+              <Input
+                type="radio"
+                value="Female"
+                id="gender"
+                name="gender"
+                onChange={this.handleInputChange}
+                required
+              />
+            </Label>
+          </div>
+
           <Label htmlFor="age">Age</Label>
           <Input
             type="number"
@@ -102,7 +131,6 @@ class Register extends Component {
             value={this.state.person.age}
             onChange={this.handleInputChange}
           />
-
           <Label htmlFor="height">Height (M)</Label>
           <Input
             type="number"
@@ -113,7 +141,6 @@ class Register extends Component {
             value={this.state.person.height}
             onChange={this.handleInputChange}
           />
-
           <Label htmlFor="weight">Weight (KG)</Label>
           <Input
             type="number"
@@ -124,7 +151,6 @@ class Register extends Component {
             value={this.state.person.weight}
             onChange={this.handleInputChange}
           />
-
           <Button
             type="submit"
             dynamicstyle={{ marginTop: "30px", marginBottom: "15px" }}
@@ -147,8 +173,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    errorNotification: () => errorNotification(),
-    successNotification: () => successNotification()
+    errorNot_UserExists: () => errorNot_UserExists(),
+    successNot_UserCreated: () => successNot_UserCreated()
   };
 };
 

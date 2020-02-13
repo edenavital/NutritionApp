@@ -8,9 +8,6 @@ export const createNotification = type => {
       case "info":
         NotificationManager.info("Info message");
         break;
-      case "success":
-        NotificationManager.success("User has been created", "SUCCESS!");
-        break;
       case "warning":
         NotificationManager.warning(
           "Warning message",
@@ -18,8 +15,20 @@ export const createNotification = type => {
           3000
         );
         break;
-      case "error":
+      case "UserCreated":
+        NotificationManager.success("User has been created", "SUCCESS!");
+        break;
+      case "RightCredentials":
+        NotificationManager.success("Successfully logged in", "SUCCESS!");
+        break;
+      case "UserExists":
         NotificationManager.error("User is already exists", "ERROR!");
+        break;
+      case "WrongCredentials":
+        NotificationManager.error(
+          "Wrong credentials. Please try again",
+          "ERROR!"
+        );
         break;
       default:
         break;
@@ -29,6 +38,14 @@ export const createNotification = type => {
 
 //The functions display alerts
 export const infoNotification = createNotification("info");
-export const successNotification = createNotification("success");
 export const warningNotification = createNotification("warning");
-export const errorNotification = createNotification("error");
+
+//Register Component:
+export const successNot_UserCreated = createNotification("UserCreated");
+export const errorNot_UserExists = createNotification("UserExists");
+
+//Login Component:
+export const successNot_RightCredentials = createNotification(
+  "RightCredentials"
+);
+export const errorNot_WrongCredentials = createNotification("WrongCredentials");

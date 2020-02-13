@@ -1,0 +1,37 @@
+.SideDrawer {
+  transition: 0.3s all;
+  width: 100vw;
+  height: 100vh;
+
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  right: 0;
+}
+
+.SideDrawer .backdrop {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.SideDrawer .drawer {
+  width: 40vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 99;
+  background-color: #fff;
+}
+
+.SideDrawer .drawer ul {
+  display: flex;
+  padding: 0px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+}

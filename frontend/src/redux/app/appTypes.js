@@ -1,0 +1,2 @@
+export const TOGGLE_SIDE_DRAWER = "TOGGLE_SIDE_DRAWER";
+export const RESET_STATE_APP = "RESET_STATE_APP";

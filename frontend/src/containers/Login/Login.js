@@ -7,10 +7,24 @@ import Label from "../../components/Label/Label";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import {
+  errorNot_WrongCredentials,
+  successNot_RightCredentials,
+  saveDataFromDatabase,
+  resetStateApp,
+  resetStateUser
+} from "../../redux";
+
+import { connect } from "react-redux";
 
 //LINE 40 LOGIN.JS, LINE 91 SERVER.JS - continue the login functionality from the backend and frontend!
 
 class Login extends Component {
+  componentDidMount() {
+    this.props.resetStateApp();
+    this.props.resetStateUser();
+  }
+
   state = {
     person: {
       username: "",
@@ -31,27 +45,24 @@ class Login extends Component {
     e.preventDefault();
     const person = this.state.person;
 
-    console.log(`VALIDATION TESTING - Sending to BACKEND the following person:
-        username - ${person.username},
-        password - ${person.password}
-    `);
-
     axios
       .post("/api/login", person)
       .then(res => {
         //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
-        //CREATE A NEW COMPONENT NAMED X IDC...
-        console.log("SUCCESSFULLY LOGGED, REDIRECT TO A NEW COMPONENT NAMED X");
+        this.props.successNot_RightCredentials();
+        this.props.saveDataFromDatabase(res.data.userData);
+        this.props.history.push("/home");
       })
-      .catch(err => {
+      .catch(() => {
         console.log("Credentials not match ...");
+        this.props.errorNot_WrongCredentials();
       });
   };
 
   render() {
     return (
       <div className="Login">
-        <Icon iconName="diet" />
+        <Icon iconName="diet" width="100px" height="100px" />
 
         <div className="description">
           <Title>Welcome to Nutrition App</Title>
@@ -92,4 +103,14 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = dispatch => {
+  return {
+    errorNot_WrongCredentials: () => errorNot_WrongCredentials(),
+    successNot_RightCredentials: () => successNot_RightCredentials(),
+    saveDataFromDatabase: userData => dispatch(saveDataFromDatabase(userData)),
+    resetStateApp: () => dispatch(resetStateApp()),
+    resetStateUser: () => dispatch(resetStateUser())
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Login);

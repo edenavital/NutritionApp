@@ -66,16 +66,16 @@ app.post("/api/register", (req, res) => {
 
 //Invokes if a person is not exists, so I am allowed to insert it!
 const createNewPerson = (newUser, res) => {
-  let { username, password, age, height, weight } = newUser;
+  let { username, password, gender, age, height, weight } = newUser;
 
-  const values = [username, password, age, height, weight];
+  const values = [username, password, gender, age, height, weight];
   console.log("Im inside createNewPerson!:", values);
 
   pool.connect((err, db, done) => {
     if (err) return res.status(400).send(err);
 
     db.query(
-      "INSERT INTO person (username, password, age, height, weight) VALUES($1, $2, $3, $4, $5)",
+      "INSERT INTO person (username, password, gender, age, height, weight) VALUES($1, $2, $3, $4, $5, $6)",
       [...values],
       err => {
         done();
@@ -102,29 +102,58 @@ app.post("/api/login", (req, res) => {
     if (err) return res.status(400).send(err);
 
     db.query(
-      `SELECT person.username, person.password FROM person WHERE username='${username}'`,
+      `SELECT * FROM person WHERE username='${username}'`,
       (err, table) => {
         done();
 
-        //Same the array of objects we get from the database
+        //Save the array of objects we get from the database
         const dataFromDatabase = table.rows[0];
-        console.log("dataFromDatabase:", password, dataFromDatabase.password);
 
         //If we got nothing from the database, it means the username is not exist in the db
-        if (dataFromDatabase.length === 0) {
+        if (!dataFromDatabase || dataFromDatabase === undefined) {
           res.status(403).send({ msg: "Username is not exist" });
           //We got something because the username exists, however - if the password is not matched it means the password is wrong
         } else if (password !== dataFromDatabase.password) {
           res.status(403).send({ msg: "Password is not matched" });
-          //Username and password are matched, which means we can LOGIN!
+          //Username and password are matched, which means we can LOGIN! - GET THE DATA OF THE USER
         } else {
-          return res.status(202).send({ msg: "Logged In!" });
+          //Calling a function that will return all the stored data of the user, it will be returned to the frontend, and there I will store the object inside redux
+          getDataOfLoggedUser(dataFromDatabase, res);
         }
-
         if (err) return res.status(400).send(err);
       }
     );
   });
 });
+
+const getDataOfLoggedUser = (newUser, res) => {
+  console.log("Im inside getDataOfLoggedUser!:", newUser);
+
+  pool.connect((err, db, done) => {
+    if (err) return res.status(400).send(err);
+
+    db.query(
+      `SELECT foodid, foodname, quantity FROM food INNER JOIN person ON (food.person_id = person.id) WHERE person.id='${newUser.id}'`,
+      (err, table) => {
+        done();
+
+        if (err) return res.status(400).send(err);
+
+        console.log("Got the data from the user !");
+
+        const userData = {
+          credentials: newUser,
+          food: table.rows
+        };
+
+        console.log("Sending the following data:", userData);
+
+        return res
+          .status(200)
+          .send({ userData: userData, msg: "New user has been created" });
+      }
+    );
+  });
+};
 
 app.listen(PORT, () => console.log(`Server is listening to port ${PORT}`));

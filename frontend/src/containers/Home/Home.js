@@ -1,0 +1,44 @@
+import React, { Component } from "react";
+import "./Home.css";
+import Icon from "../../components/Icon/Icon";
+import { connect } from "react-redux";
+import SideDrawer from "./../../components/SideDrawer/SideDrawer";
+import { toggleSideDrawer } from "../../redux";
+class Home extends Component {
+  render() {
+    //const { username } = this.props.credentials;
+
+    return (
+      <div className="Home">
+        <SideDrawer />
+        <Icon
+          iconName="menu"
+          width="40px"
+          height="40px"
+          position="absolute"
+          right="8%"
+          top="3%"
+          cursor="pointer"
+          onClick={this.props.toggleSideDrawer}
+        />
+        <Icon iconName="smile" width="100px" height="100px" />
+        <h4>Welcome USER</h4>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    credentials: state.user.credentials,
+    food: state.user.food
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    toggleSideDrawer: () => dispatch(toggleSideDrawer())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

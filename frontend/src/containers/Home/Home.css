@@ -1,0 +1,12 @@
+.Home {
+  
+  width: 99vw;
+  height: 99vh;
+  background: #fff;
+  border: 1px solid black;
+  border-radius: 50px;
+}
+
+.Home h4 {
+  margin: 15px;
+}
