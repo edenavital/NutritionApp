@@ -1,0 +1,24 @@
+.FoodItem {
+  position: relative;
+  display: flex;
+  border: 3px solid greenyellow;
+  box-shadow: 1px 0px 7px rgba(0, 0, 0, 0.5);
+  width: 90%;
+  height: 35%;
+  padding: 5px;
+
+  margin: auto;
+  border-radius: 10px;
+}
+
+.FoodItem .food {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addIcon {
+  /* position: absolute; */
+  top: 0px;
+  right: 0px;
+}
