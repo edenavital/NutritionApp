@@ -7,7 +7,7 @@ import { toggleSideDrawer } from "../../redux";
 import { Link } from "react-router-dom";
 
 const SideDrawer = props => {
-  const child = (
+  const menu = (
     <div className="SideDrawer">
       <h3>Menu</h3>
 
@@ -15,7 +15,7 @@ const SideDrawer = props => {
         <li>
           <Link to="/home">Home</Link>
         </li>
-        <li>Add Food</li>
+        <Link to="/food">Add Food</Link>
         <li>
           <Link to="/login">Logout</Link>
         </li>
@@ -28,7 +28,7 @@ const SideDrawer = props => {
       <CSSTransition
         in={props.isDrawerVisible}
         classNames={"Backdrop"}
-        timeout={750}
+        timeout={550}
         unmountOnExit
         appear
       >
@@ -38,11 +38,11 @@ const SideDrawer = props => {
       <CSSTransition
         in={props.isDrawerVisible}
         classNames={"SideDrawer"}
-        timeout={750}
+        timeout={550}
         unmountOnExit
         appear
       >
-        {child}
+        {menu}
       </CSSTransition>
     </>
   );

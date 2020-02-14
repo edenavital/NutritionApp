@@ -24,6 +24,14 @@ class Home extends Component {
         />
         <Icon iconName="smile" width="100px" height="100px" />
         <h4>Welcome USER</h4>
+
+        <main>
+          <div>GRAPH</div>
+
+          <div>BMR - AMOUNT OF CALROIES</div>
+
+          <div>FOOD and amount of calories for each...</div>
+        </main>
       </div>
     );
   }

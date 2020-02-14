@@ -10,7 +10,12 @@
   z-index: 99;
   background-color: #afff9f;
   transform: translateX(-100%);
-  transition: all 0.75s ease-out;
+  transition: all 0.55s ease-out;
+}
+.SideDrawer ul {
+  list-style: none;
+  padding: 0px;
+  text-align: center;
 }
 
 /*SideDrawer-text*/
@@ -18,25 +23,25 @@
 .SideDrawer-enter {
   opacity: 1;
   transform: translateX(-100%);
-  transition: all 0.75s ease-out;
+  transition: all 0.55s ease-out;
 }
 
 .SideDrawer-enter-active,
 .SideDrawer-enter-done {
   opacity: 1;
   transform: translateX(0%);
-  transition: all 0.75s ease-out;
+  transition: all 0.55s ease-out;
 }
 
 .SideDrawer-exit {
   opacity: 1;
   transform: translateX(0%);
-  transition: all 0.75s ease-out;
+  transition: all 0.55s ease-out;
 }
 
 .SideDrawer-exit-active,
 .SideDrawer-exit-done {
   opacity: 1;
   transform: translateX(-100%);
-  transition: all 0.75s ease-out;
+  transition: all 0.55s ease-out;
 }

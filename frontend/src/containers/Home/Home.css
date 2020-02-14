@@ -1,4 +1,4 @@
-.Home {
+.Food {
   width: 99vw;
   height: 99vh;
   background: #fff;
@@ -6,6 +6,6 @@
   border-radius: 50px;
 }
 
-.Home h4 {
+.Food main h4 {
   margin: 15px;
 }
