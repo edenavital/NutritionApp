@@ -12,19 +12,19 @@ app.use(cors());
 app.use(morgan("dev"));
 
 //Config for working with postgres in localhost environment:
-config = {
-  user: "postgres",
-  database: "nutrition",
-  password: "1a2d3i4",
-  host: "localhost",
-  port: 5432,
-  max: 10
-};
-//Config for working with postgres in development environment - heroku:
 // config = {
-//     connectionString: process.env.DATABASE_URL,
-//     ssl: true
-// }
+//   user: "postgres",
+//   database: "nutrition",
+//   password: "1a2d3i4",
+//   host: "localhost",
+//   port: 5432,
+//   max: 10
+// };
+//Config for working with postgres in development environment - heroku:
+config = {
+  connectionString: process.env.DATABASE_URL,
+  ssl: true
+};
 
 const pool = new pg.Pool(config);
 
@@ -155,5 +155,17 @@ const getDataOfLoggedUser = (newUser, res) => {
     );
   });
 };
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname + "/frontend/build/index.html"));
+  });
+}
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/frontend/public/index.html"));
+});
 
 app.listen(PORT, () => console.log(`Server is listening to port ${PORT}`));
