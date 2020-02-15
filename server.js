@@ -97,7 +97,7 @@ app.post("/api/login", (req, res) => {
   let { username, password } = req.body;
   console.log("password from user", password);
 
-  //Connect to the DB - parameter is a function that gets err - error, db - new client inside the pool, done - release function
+  //Connect to the DB - Parameter is a function that gets err - error, db - new client inside the pool, done - release function
   pool.connect((err, db, done) => {
     if (err) return res.status(400).send(err);
 
