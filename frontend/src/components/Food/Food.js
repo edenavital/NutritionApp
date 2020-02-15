@@ -4,6 +4,9 @@ import Icon from "../Icon/Icon";
 import SideDrawer from "../SideDrawer/SideDrawer";
 import axios from "axios";
 import FoodItem from "../FoodItem/FoodItem";
+import { connect } from "react-redux";
+import { fetchRequestLoader } from "../../redux";
+import Loader from "../Loader/Loader";
 class Food extends Component {
   state = {
     search: "",
@@ -22,7 +25,7 @@ class Food extends Component {
     console.log(`Sending to API the following query string:
             search - ${search}
         `);
-
+    this.props.fetchRequestLoader();
     axios
       .get(
         `https://trackapi.nutritionix.com/v2/search/instant?query=${search}&detailed=true`,
@@ -49,34 +52,38 @@ class Food extends Component {
             console.log("currentTag: ", currentTag);
             if (storedTag === currentTag) {
               console.log(
-                "DELETE THE OBJECT CUASE THEY ARE THE SAME: ",
+                "DELETE THE OBJECT BECAUSE THEY ARE THE SAME: ",
                 data[j]
               );
               data.splice(j, 1);
-              //RETURN BACK TO I IN ORDER TO FIND MORE SAME TAG_ID.. CONVERT TO A FUCKING WHILE
+              //RETURN BACK TO i IN ORDER TO FIND MORE OF THE SAME TAG_ID...
               j = i;
             }
           }
         }
 
+        this.props.fetchRequestLoader();
         console.log("NEW FILTERED ARRAY IS: ", data);
         this.setState({ foodList: data });
       })
 
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.props.fetchRequestLoader();
+        console.log(err);
+      });
   };
 
   //
-  getCalories = full_nutrients => {
-    full_nutrients.map(nutrient => {
-      if (nutrient.attr_id === 208) {
-        //console.log("Found calroies:", nutrient.value);
-        return nutrient.value;
-      }
-    });
+  // getCalories = full_nutrients => {
+  //   full_nutrients.map(nutrient => {
+  //     if (nutrient.attr_id === 208) {
+  //       //console.log("Found calroies:", nutrient.value);
+  //       return nutrient.value;
+  //     }
+  //   });
 
-    return 0;
-  };
+  //   return 0;
+  // };
 
   render() {
     let foods = "";
@@ -85,7 +92,7 @@ class Food extends Component {
       foods = this.state.foodList.map(food => {
         //In order to get the calories: create a seperated function for that... doesnt look good... async await should work
         //console.log("Current food is: ", food);
-        food.full_nutrients.map(nutrient => {
+        food.full_nutrients.forEach(nutrient => {
           if (nutrient.attr_id === 208) {
             calories = nutrient.value;
           }
@@ -104,6 +111,7 @@ class Food extends Component {
 
     return (
       <div className="Food">
+        {this.props.loading ? <Loader /> : null}
         <SideDrawer />
         <Icon iconName="food" width="100px" height="100px" />
 
@@ -128,4 +136,17 @@ class Food extends Component {
     );
   }
 }
-export default Food;
+
+const mapStateToProps = state => {
+  return {
+    loading: state.app.loading
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchRequestLoader: () => dispatch(fetchRequestLoader())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Food);

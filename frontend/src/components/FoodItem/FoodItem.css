@@ -1,13 +1,13 @@
 .FoodItem {
   position: relative;
   display: flex;
-  border: 3px solid greenyellow;
+  border: 3px solid rgb(135, 207, 25);
   box-shadow: 1px 0px 7px rgba(0, 0, 0, 0.5);
-  width: 90%;
-  height: 35%;
+  width: 85%;
+  height: 12%;
   padding: 5px;
 
-  margin: auto;
+  margin: 10px auto 10px auto;
   border-radius: 10px;
 }
 
@@ -18,7 +18,8 @@
 }
 
 .addIcon {
-  /* position: absolute; */
-  top: 0px;
-  right: 0px;
+  position: absolute;
+  top: 50%;
+  right: -6%;
+  transform: translate(-50%, -50%);
 }

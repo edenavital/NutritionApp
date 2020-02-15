@@ -13,11 +13,17 @@ const SideDrawer = props => {
 
       <ul>
         <li>
-          <Link to="/home">Home</Link>
+          <Link to="/home" onClick={props.toggleSideDrawer}>
+            Home
+          </Link>
         </li>
-        <Link to="/food">Add Food</Link>
+        <Link to="/food" onClick={props.toggleSideDrawer}>
+          Add Food
+        </Link>
         <li>
-          <Link to="/login">Logout</Link>
+          <Link to="/login" onClick={props.toggleSideDrawer}>
+            Logout
+          </Link>
         </li>
       </ul>
     </div>

@@ -7,4 +7,8 @@ export {
 
 export { saveDataFromDatabase, resetStateUser } from "./user/userActions";
 
-export { toggleSideDrawer, resetStateApp } from "./app/appActions";
+export {
+  toggleSideDrawer,
+  resetStateApp,
+  fetchRequestLoader
+} from "./app/appActions";

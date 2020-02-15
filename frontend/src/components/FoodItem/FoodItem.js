@@ -1,17 +1,13 @@
 import React from "react";
 import "./FoodItem.css";
 function FoodItem(props) {
-  //You will have name, img , Calories
-  //console.log("name", props.name);
-  //console.log("img", props.img);
-  //console.log("calories", props.calories);
   return (
     <div className="FoodItem">
       <div className="food">
         <img src={props.img.thumb} width="50px" height="50px" alt="food" />
 
         <h4>{props.name}</h4>
-        <p>{props.calories}</p>
+        <p>{props.calories.toFixed(0)}</p>
       </div>
 
       <img

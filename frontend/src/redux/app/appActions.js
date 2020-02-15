@@ -1,4 +1,8 @@
-import { TOGGLE_SIDE_DRAWER, RESET_STATE_APP } from "./appTypes";
+import {
+  TOGGLE_SIDE_DRAWER,
+  RESET_STATE_APP,
+  FETCH_REQUEST_LOADER
+} from "./appTypes";
 //import axios from "axios";
 
 export const toggleSideDrawer = () => {
@@ -11,5 +15,11 @@ export const toggleSideDrawer = () => {
 export const resetStateApp = () => {
   return {
     type: RESET_STATE_APP
+  };
+};
+
+export const fetchRequestLoader = () => {
+  return {
+    type: FETCH_REQUEST_LOADER
   };
 };

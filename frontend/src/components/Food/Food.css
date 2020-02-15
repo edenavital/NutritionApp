@@ -1,7 +1,7 @@
 .Food {
   width: 99vw;
   height: 99vh;
-  background: #fff;
+
   border: 1px solid black;
   border-radius: 50px;
 }
@@ -76,4 +76,10 @@
 
 .Food main .searchBar form:hover input {
   display: block;
+}
+
+.Food .Foods {
+  height: 55vh;
+  width: 100%;
+  overflow: scroll;
 }
