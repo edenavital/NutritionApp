@@ -5,26 +5,26 @@ const morgan = require("morgan");
 const path = require("path");
 const PORT = process.env.PORT || 5000;
 const app = express();
-
+const jwt = require("jsonwebtoken");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan("dev"));
-
+const SECRET = "MY_SECRET_KEY";
 //Config for working with postgres in localhost environment:
-// config = {
-//   user: "postgres",
-//   database: "nutrition",
-//   password: "1a2d3i4",
-//   host: "localhost",
-//   port: 5432,
-//   max: 10
-// };
-//Config for working with postgres in development environment - heroku:
 config = {
-  connectionString: process.env.DATABASE_URL,
-  ssl: true
+  user: "postgres",
+  database: "nutrition",
+  password: "1a1a1a",
+  host: "localhost",
+  port: 5432,
+  max: 10,
 };
+//Config for working with postgres in deployment environment - heroku: (Use this config only when pushing the code into master branch)
+// config = {
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: true
+// };
 
 const pool = new pg.Pool(config);
 
@@ -36,10 +36,10 @@ app.post("/api/register", (req, res) => {
   console.log("INSIDE /api/register FROM BACKEND");
   console.log("REQ BODY:", req.body);
 
-  //Destruct the data from the client
+  //Getting some data from the client
   let { username } = req.body;
 
-  //Connect to the DB - parameter is a function that gets err - error, db - new client inside the pool, done - release function
+  //Connect to the DB - a function that gets err - error, db - new client inside the pool, done - release function
   pool.connect((err, db, done) => {
     if (err) return res.status(400).send(err);
 
@@ -77,7 +77,7 @@ const createNewPerson = (newUser, res) => {
     db.query(
       "INSERT INTO person (username, password, gender, age, height, weight) VALUES($1, $2, $3, $4, $5, $6)",
       [...values],
-      err => {
+      (err) => {
         done();
         if (err) return res.status(400).send(err);
 
@@ -92,6 +92,7 @@ const createNewPerson = (newUser, res) => {
 app.post("/api/login", (req, res) => {
   console.log("inside backend - /api/login");
   console.log("REQ BODY:", req.body);
+  console.log("REQ HEADERS:", req.headers.authorization);
 
   //Destruct the data from the client
   let { username, password } = req.body;
@@ -116,6 +117,47 @@ app.post("/api/login", (req, res) => {
         } else if (password !== dataFromDatabase.password) {
           res.status(403).send({ msg: "Password is not matched" });
           //Username and password are matched, which means we can LOGIN! - GET THE DATA OF THE USER
+        } else {
+          //Calling a function that will return all the stored data of the user, it will be returned to the frontend, and there I will store the object inside redux
+          if (checkToken(req, res)) getDataOfLoggedUser(dataFromDatabase, res);
+        }
+        if (err) return res.status(400).send(err);
+      }
+    );
+  });
+});
+
+app.get("/api/getUserData", (req, res) => {
+  console.log("inside backend - /api/getUserData");
+  console.log("REQ HEADERS:", req.headers.authorization);
+  const token = req.headers.authorization;
+
+  if (!token) res.status(300).send({ msg: "JWT not found" });
+
+  let username;
+  jwt.verify(token, SECRET, function (err, authorizedData) {
+    if (err) {
+      return console.log("ERROR: ", err);
+    }
+    username = authorizedData.username;
+    console.log("JWT is valid and authorizedData is\n", authorizedData);
+  });
+
+  //Connect to the DB - Parameter is a function that gets err - error, db - new client inside the pool, done - release function
+  pool.connect((err, db, done) => {
+    if (err) return res.status(400).send(err);
+
+    db.query(
+      `SELECT * FROM person WHERE username='${username}'`,
+      (err, table) => {
+        done();
+
+        //Save the array of objects we get from the database
+        const dataFromDatabase = table.rows[0];
+
+        //If we got nothing from the database, it means the username is not exist in the db
+        if (!dataFromDatabase || dataFromDatabase === undefined) {
+          res.status(403).send({ msg: "Username is not exist" });
         } else {
           //Calling a function that will return all the stored data of the user, it will be returned to the frontend, and there I will store the object inside redux
           getDataOfLoggedUser(dataFromDatabase, res);
@@ -143,7 +185,7 @@ const getDataOfLoggedUser = (newUser, res) => {
 
         const userData = {
           credentials: newUser,
-          food: table.rows
+          food: table.rows,
         };
 
         console.log("Sending the following data:", userData);
@@ -154,6 +196,21 @@ const getDataOfLoggedUser = (newUser, res) => {
       }
     );
   });
+};
+
+//Check to make sure header is not undefined, if so, return Forbidden (403)
+const checkToken = (req, res) => {
+  const header = req.headers.authorization.split(" ")[1];
+  if (typeof header !== "undefined") {
+    const bearer = header.split(" ");
+    const token = bearer[1];
+
+    req.token = token;
+    return true;
+  } else {
+    //If header is undefined return Forbidden (403)
+    res.sendStatus(403).send({ msg: "header is undefined!" });
+  }
 };
 
 if (process.env.NODE_ENV === "production") {

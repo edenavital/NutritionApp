@@ -12,10 +12,11 @@ import {
   successNot_RightCredentials,
   saveDataFromDatabase,
   resetStateApp,
-  resetStateUser
+  resetStateUser,
 } from "../../redux";
 
 import { connect } from "react-redux";
+import jwt from "jsonwebtoken";
 
 //LINE 40 LOGIN.JS, LINE 91 SERVER.JS - continue the login functionality from the backend and frontend!
 
@@ -23,16 +24,17 @@ class Login extends Component {
   componentDidMount() {
     this.props.resetStateApp();
     this.props.resetStateUser();
+    localStorage.removeItem("JWT");
   }
 
   state = {
     person: {
       username: "",
-      password: ""
-    }
+      password: "",
+    },
   };
 
-  handleInputChange = e => {
+  handleInputChange = (e) => {
     const key = e.target.id;
     const value = e.target.value;
 
@@ -41,16 +43,33 @@ class Login extends Component {
     this.setState({ person: updatedPerson });
   };
 
-  onSubmitForm = e => {
+  onSubmitForm = (e) => {
     e.preventDefault();
     const person = this.state.person;
 
+    //creating a token
+    const SECRET = "MY_SECRET_KEY";
+    var token = jwt.sign(
+      {
+        userId: person.id,
+        username: person.username,
+        name: person.name,
+      },
+      SECRET,
+      { expiresIn: "7d" }
+    ); // default: HS256 encryption
+
+    console.log("MY generated JWT TOKEN", token);
+
     axios
-      .post("/api/login", person)
-      .then(res => {
+      .post("/api/login", person, {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((res) => {
         //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
         this.props.successNot_RightCredentials();
         this.props.saveDataFromDatabase(res.data.userData);
+        localStorage.setItem("JWT", token);
         this.props.history.push("/home");
       })
       .catch(() => {
@@ -103,13 +122,14 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     errorNot_WrongCredentials: () => errorNot_WrongCredentials(),
     successNot_RightCredentials: () => successNot_RightCredentials(),
-    saveDataFromDatabase: userData => dispatch(saveDataFromDatabase(userData)),
+    saveDataFromDatabase: (userData) =>
+      dispatch(saveDataFromDatabase(userData)),
     resetStateApp: () => dispatch(resetStateApp()),
-    resetStateUser: () => dispatch(resetStateUser())
+    resetStateUser: () => dispatch(resetStateUser()),
   };
 };
 

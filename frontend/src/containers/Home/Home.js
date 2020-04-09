@@ -5,9 +5,13 @@ import { connect } from "react-redux";
 import { toggleSideDrawer } from "../../redux";
 import SideDrawer from "../../components/SideDrawer/SideDrawer";
 class Home extends Component {
+  logout = () => {
+    localStorage.removeItem("JWT");
+    this.props.history.push("/login");
+  };
+
   render() {
     //const { username } = this.props.credentials;
-
     return (
       <div className="Home">
         <SideDrawer />
@@ -23,6 +27,20 @@ class Home extends Component {
           onClick={this.props.toggleSideDrawer}
         />
         <Icon iconName="smile" width="100px" height="100px" />
+
+        <div
+          onClick={this.logout}
+          style={{
+            color: "red",
+            cursor: "pointer",
+            position: "absolute",
+            top: "10%",
+            right: "10%",
+          }}
+        >
+          X
+        </div>
+
         <h4>Welcome USER</h4>
 
         <main>
@@ -37,16 +55,16 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     credentials: state.user.credentials,
-    food: state.user.food
+    food: state.user.food,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    toggleSideDrawer: () => dispatch(toggleSideDrawer())
+    toggleSideDrawer: () => dispatch(toggleSideDrawer()),
   };
 };
 

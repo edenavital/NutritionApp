@@ -17,22 +17,22 @@ class Register extends Component {
       gender: "",
       age: "",
       height: "",
-      weight: ""
-    }
+      weight: "",
+    },
   };
 
-  handleInputChange = e => {
+  handleInputChange = (e) => {
     const key = e.target.id;
     const value = e.target.value;
     console.log("key and values are: ", key, value);
-    const updatedPerson = this.state.person;
+    const updatedPerson = { ...this.state.person };
     updatedPerson[key] = value;
     this.setState({ person: updatedPerson });
   };
 
-  onSubmitForm = e => {
+  onSubmitForm = (e) => {
     e.preventDefault();
-    const person = this.state.person;
+    const person = { ...this.state.person };
 
     console.log(`Sending to BACKEND the following person:
             username - ${person.username},
@@ -45,12 +45,12 @@ class Register extends Component {
 
     axios
       .post("/api/register", person)
-      .then(res => {
+      .then((res) => {
         console.log(res.data);
         this.props.successNot_UserCreated();
         this.clearForm();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         this.props.errorNot_UserExists();
       });
@@ -64,8 +64,8 @@ class Register extends Component {
         gender: "",
         age: "",
         height: "",
-        weight: ""
-      }
+        weight: "",
+      },
     });
   };
 
@@ -167,14 +167,14 @@ class Register extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {};
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     errorNot_UserExists: () => errorNot_UserExists(),
-    successNot_UserCreated: () => successNot_UserCreated()
+    successNot_UserCreated: () => successNot_UserCreated(),
   };
 };
 
