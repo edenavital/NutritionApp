@@ -10,14 +10,14 @@ import Loader from "../Loader/Loader";
 class Food extends Component {
   state = {
     search: "",
-    foodList: [{}]
+    foodList: [{}],
   };
 
-  handleInputChange = e => {
+  handleInputChange = (e) => {
     this.setState({ search: e.target.value });
   };
 
-  onSubmitForm = e => {
+  onSubmitForm = (e) => {
     this.setState({ foodList: [] });
     e.preventDefault();
     const search = this.state.search;
@@ -32,11 +32,11 @@ class Food extends Component {
         {
           headers: {
             "x-app-id": "9b7a7cb0",
-            "x-app-key": "91ef974114a25914afae4c527cbc377a"
-          }
+            "x-app-key": "91ef974114a25914afae4c527cbc377a",
+          },
         }
       )
-      .then(res => {
+      .then((res) => {
         //Get only common foods from the API
         let data = res.data.common;
         console.log("ARRAY BEFORE FILTER IS:", data);
@@ -67,13 +67,12 @@ class Food extends Component {
         this.setState({ foodList: data });
       })
 
-      .catch(err => {
+      .catch((err) => {
         this.props.fetchRequestLoader();
         console.log(err);
       });
   };
 
-  //
   // getCalories = full_nutrients => {
   //   full_nutrients.map(nutrient => {
   //     if (nutrient.attr_id === 208) {
@@ -89,10 +88,10 @@ class Food extends Component {
     let foods = "";
     let calories = 0;
     if (this.state.foodList.length > 1) {
-      foods = this.state.foodList.map(food => {
+      foods = this.state.foodList.map((food) => {
         //In order to get the calories: create a seperated function for that... doesnt look good... async await should work
         //console.log("Current food is: ", food);
-        food.full_nutrients.forEach(nutrient => {
+        food.full_nutrients.forEach((nutrient) => {
           if (nutrient.attr_id === 208) {
             calories = nutrient.value;
           }
@@ -137,15 +136,15 @@ class Food extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    loading: state.app.loading
+    loading: state.app.loading,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    fetchRequestLoader: () => dispatch(fetchRequestLoader())
+    fetchRequestLoader: () => dispatch(fetchRequestLoader()),
   };
 };
 

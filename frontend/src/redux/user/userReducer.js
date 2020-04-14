@@ -1,7 +1,7 @@
 import { SAVE_DATA_FROM_DATABASE, RESET_STATE_APP } from "./userTypes";
 
 const initialState = {
-  data: [{}]
+  data: [{}],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -9,11 +9,11 @@ const userReducer = (state = initialState, action) => {
     case SAVE_DATA_FROM_DATABASE:
       return {
         credentials: action.payload.credentials,
-        food: action.payload.food
+        food: action.payload.food,
       };
     case RESET_STATE_APP:
       return {
-        ...initialState
+        ...initialState,
       };
     default:
       return state;

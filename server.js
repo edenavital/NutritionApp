@@ -12,19 +12,19 @@ app.use(cors());
 app.use(morgan("dev"));
 const SECRET = "MY_SECRET_KEY";
 //Config for working with postgres in localhost environment:
-config = {
-  user: "postgres",
-  database: "nutrition",
-  password: "1a1a1a",
-  host: "localhost",
-  port: 5432,
-  max: 10,
-};
-//Config for working with postgres in deployment environment - heroku: (Use this config only when pushing the code into master branch)
 // config = {
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: true
+//   user: "postgres",
+//   database: "nutrition",
+//   password: "1a1a1a",
+//   host: "localhost",
+//   port: 5432,
+//   max: 10,
 // };
+//Config for working with postgres in deployment environment - heroku: (Use this config only when pushing the code into master branch)
+config = {
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+};
 
 const pool = new pg.Pool(config);
 
