@@ -18,12 +18,12 @@ const auth = require("./middleware/auth");
 // devConfig = config.get("devConfig");
 
 //Config for working with postgres in deployment environment - heroku: (Use this config only when pushing the code into master branch)
-pgConfig = {
+prodConfig = {
   connectionString: process.env.DATABASE_URL,
   ssl: true,
 };
 
-const pool = new pg.Pool(devConfig);
+const pool = new pg.Pool(prodConfig);
 
 //Register a new person to the application:
 //First, query so check if the person.username is exists in the database!
