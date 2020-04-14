@@ -4,9 +4,12 @@ import Icon from "../../components/Icon/Icon";
 import { connect } from "react-redux";
 import { toggleSideDrawer } from "../../redux";
 import SideDrawer from "../../components/SideDrawer/SideDrawer";
+import { resetStateApp, resetStateUser } from "../../redux";
 class Home extends Component {
   logout = () => {
     localStorage.removeItem("JWT");
+    this.props.resetStateUser();
+    this.props.resetStateApp();
     this.props.history.push("/login");
   };
 
@@ -65,6 +68,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     toggleSideDrawer: () => dispatch(toggleSideDrawer()),
+    resetStateUser: () => dispatch(resetStateUser()),
+    resetStateApp: () => dispatch(resetStateApp()),
   };
 };
 

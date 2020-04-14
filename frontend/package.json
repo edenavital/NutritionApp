@@ -20,6 +20,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
+    "start:debug": "react-scripts --inspect start --no-cache --runInBand",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

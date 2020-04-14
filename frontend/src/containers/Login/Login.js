@@ -14,17 +14,13 @@ import {
   resetStateApp,
   resetStateUser,
 } from "../../redux";
-
 import { connect } from "react-redux";
-import jwt from "jsonwebtoken";
-
-//LINE 40 LOGIN.JS, LINE 91 SERVER.JS - continue the login functionality from the backend and frontend!
 
 class Login extends Component {
   componentDidMount() {
-    this.props.resetStateApp();
-    this.props.resetStateUser();
-    localStorage.removeItem("JWT");
+    // this.props.resetStateApp();
+    // this.props.resetStateUser();
+    // localStorage.removeItem("JWT");
   }
 
   state = {
@@ -47,29 +43,13 @@ class Login extends Component {
     e.preventDefault();
     const person = this.state.person;
 
-    //creating a token
-    const SECRET = "MY_SECRET_KEY";
-    var token = jwt.sign(
-      {
-        userId: person.id,
-        username: person.username,
-        name: person.name,
-      },
-      SECRET,
-      { expiresIn: "7d" }
-    ); // default: HS256 encryption
-
-    console.log("MY generated JWT TOKEN", token);
-
     axios
-      .post("/api/login", person, {
-        headers: { Authorization: "Bearer " + token },
-      })
+      .post("/api/login", person)
       .then((res) => {
         //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
         this.props.successNot_RightCredentials();
         this.props.saveDataFromDatabase(res.data.userData);
-        localStorage.setItem("JWT", token);
+        localStorage.setItem("JWT", res.data.userData.token);
         this.props.history.push("/home");
       })
       .catch(() => {
@@ -122,6 +102,12 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    token: state.user.token,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     errorNot_WrongCredentials: () => errorNot_WrongCredentials(),
@@ -133,4 +119,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

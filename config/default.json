@@ -1,0 +1,11 @@
+{
+  "devConfig": {
+    "user": "postgres",
+    "database": "nutrition",
+    "password": "1a1a1a",
+    "host": "localhost",
+    "port": 5432,
+    "max": 10
+  },
+  "jwtSecret": "blaasdczxas"
+}

@@ -1,20 +1,18 @@
 import React, { Component } from "react";
 
 import axios from "axios";
-import {
-  saveDataFromDatabase,
-  resetStateApp,
-  resetStateUser,
-} from "../../redux";
+import { saveDataFromDatabase } from "../../redux";
 import { connect } from "react-redux";
 
 class AuthenticationComp extends Component {
   componentDidMount() {
-    const jwt = localStorage.getItem("JWT");
-    if (jwt) {
+    const { token } = this.props;
+
+    // const jwt = localStorage.getItem("JWT");
+    if (token) {
       axios
         .get("/api/getUserData", {
-          headers: { Authorization: jwt },
+          headers: { Authorization: token },
         })
         .then((res) => {
           //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
@@ -40,13 +38,17 @@ class AuthenticationComp extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    token: state.user.token,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     saveDataFromDatabase: (userData) =>
       dispatch(saveDataFromDatabase(userData)),
-    resetStateApp: () => dispatch(resetStateApp()),
-    resetStateUser: () => dispatch(resetStateUser()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(AuthenticationComp);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationComp);
