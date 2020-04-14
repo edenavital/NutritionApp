@@ -14,18 +14,16 @@ app.use(morgan("dev"));
 
 const auth = require("./middleware/auth");
 
-const jwtSecret = "blaasdczxas";
-
 //Config for working with postgres in localhost environment: (comes from default.json file now - environment json)
-// devConfig = config.get("devConfig");
+devConfig = config.get("devConfig");
 
 //Config for working with postgres in deployment environment - heroku: (Use this config only when pushing the code into master branch)
-prodConfig = {
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
-};
+// prodConfig = {
+//   connectionString: process.env.DATABASE_URL,
+//   ssl: true,
+// };
 
-const pool = new pg.Pool(prodConfig);
+const pool = new pg.Pool(devConfig);
 
 //Register a new person to the application:
 //First, query so check if the person.username is exists in the database!
@@ -117,17 +115,17 @@ app.post("/api/login", (req, res) => {
           //Username and password are matched, which means we can LOGIN! - GET THE DATA OF THE USER AND CREATE A JWT TOKEN
         } else {
           //Calling a function that will return all the stored data of the user, it will be returned to the frontend, and there I will store the object inside redux
-          let token = null;
           jwt.sign(
             { id: dataFromDatabase.id },
-            jwtSecret,
+            config.get("jwtSecret"),
             { expiresIn: 3600 },
             (err, token) => {
               if (err) throw error;
-              token = token;
+              let tok = token;
+              console.log("TOKEEEEEEEEEEEN", tok);
+              getDataOfLoggedUser(dataFromDatabase, res, tok);
             }
           );
-          getDataOfLoggedUser(dataFromDatabase, res, token);
         }
         if (err) return res.status(400).send(err);
       }

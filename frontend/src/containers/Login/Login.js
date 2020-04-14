@@ -47,9 +47,10 @@ class Login extends Component {
       .post("/api/login", person)
       .then((res) => {
         //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
+        console.log("FRONT", res);
         this.props.successNot_RightCredentials();
         this.props.saveDataFromDatabase(res.data.userData);
-        localStorage.setItem("JWT", res.data.token);
+        localStorage.setItem("JWT", res.data.userData.token);
         this.props.history.push("/home");
       })
       .catch(() => {
