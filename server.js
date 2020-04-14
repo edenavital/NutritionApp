@@ -14,6 +14,8 @@ app.use(morgan("dev"));
 
 const auth = require("./middleware/auth");
 
+const jwtSecret = "blaasdczxas";
+
 //Config for working with postgres in localhost environment: (comes from default.json file now - environment json)
 // devConfig = config.get("devConfig");
 
@@ -118,7 +120,7 @@ app.post("/api/login", (req, res) => {
           let token = null;
           jwt.sign(
             { id: dataFromDatabase.id },
-            config.get("jwtSecret"),
+            jwtSecret,
             { expiresIn: 3600 },
             (err, token) => {
               if (err) throw error;
