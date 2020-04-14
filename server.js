@@ -15,13 +15,13 @@ app.use(morgan("dev"));
 const auth = require("./middleware/auth");
 
 //Config for working with postgres in localhost environment: (comes from default.json file now - environment json)
-devConfig = config.get("devConfig");
+// devConfig = config.get("devConfig");
 
 //Config for working with postgres in deployment environment - heroku: (Use this config only when pushing the code into master branch)
-// pgConfig = {
-//   connectionString: process.env.DATABASE_URL,
-//   ssl: true,
-// };
+pgConfig = {
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+};
 
 const pool = new pg.Pool(devConfig);
 
