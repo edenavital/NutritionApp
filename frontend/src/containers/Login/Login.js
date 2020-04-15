@@ -10,19 +10,13 @@ import axios from "axios";
 import {
   errorNot_WrongCredentials,
   successNot_RightCredentials,
-  saveDataFromDatabase,
+  saveDataLogin,
   resetStateApp,
   resetStateUser,
 } from "../../redux";
 import { connect } from "react-redux";
 
 class Login extends Component {
-  componentDidMount() {
-    // this.props.resetStateApp();
-    // this.props.resetStateUser();
-    // localStorage.removeItem("JWT");
-  }
-
   state = {
     person: {
       username: "",
@@ -49,7 +43,7 @@ class Login extends Component {
         //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
 
         this.props.successNot_RightCredentials();
-        this.props.saveDataFromDatabase(res.data.userData);
+        this.props.saveDataLogin(res.data.userData);
         localStorage.setItem("JWT", res.data.userData.token);
         this.props.history.push("/home");
       })
@@ -113,8 +107,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     errorNot_WrongCredentials: () => errorNot_WrongCredentials(),
     successNot_RightCredentials: () => successNot_RightCredentials(),
-    saveDataFromDatabase: (userData) =>
-      dispatch(saveDataFromDatabase(userData)),
+    saveDataLogin: (userData) => dispatch(saveDataLogin(userData)),
     resetStateApp: () => dispatch(resetStateApp()),
     resetStateUser: () => dispatch(resetStateUser()),
   };

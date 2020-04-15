@@ -6,6 +6,14 @@ import { toggleSideDrawer } from "../../redux";
 import SideDrawer from "../../components/SideDrawer/SideDrawer";
 import { resetStateApp, resetStateUser } from "../../redux";
 class Home extends Component {
+  componentDidMount() {
+    const { user } = this.props;
+    //you need to create a util function that gets the state and if username or token equal to null, call saveDataLogin or saveDataFromDatabase
+    if (!user.token || !user.credentials) {
+      this.logout();
+    }
+  }
+
   logout = () => {
     localStorage.removeItem("JWT");
     this.props.resetStateUser();
@@ -62,6 +70,7 @@ const mapStateToProps = (state) => {
   return {
     credentials: state.user.credentials,
     food: state.user.food,
+    user: state.user,
   };
 };
 

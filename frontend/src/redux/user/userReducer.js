@@ -1,4 +1,8 @@
-import { SAVE_DATA_FROM_DATABASE, RESET_STATE_APP } from "./userTypes";
+import {
+  SAVE_DATA_FROM_DATABASE,
+  RESET_STATE_APP,
+  SAVE_DATA_LOGIN,
+} from "./userTypes";
 
 const initialState = {
   credentials: null,
@@ -8,11 +12,17 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SAVE_DATA_FROM_DATABASE:
+    case SAVE_DATA_LOGIN:
       return {
         credentials: action.payload.credentials,
         food: action.payload.food,
         token: action.payload.token,
+      };
+    case SAVE_DATA_FROM_DATABASE:
+      return {
+        ...state,
+        credentials: action.payload.credentials,
+        food: action.payload.food,
       };
     case RESET_STATE_APP:
       return {

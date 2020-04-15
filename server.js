@@ -11,19 +11,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan("dev"));
-
 const auth = require("./middleware/auth");
 
 //Config for working with postgres in localhost environment: (comes from default.json file now - environment json)
-// devConfig = config.get("devConfig");
 
-//Config for working with postgres in deployment environment - heroku: (Use this config only when pushing the code into master branch)
-prodConfig = {
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
-};
+let configPg = config.get("devConfig");
 
-const pool = new pg.Pool(prodConfig);
+if (process.env.NODE_ENV === "production") {
+  configPg = {
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
+  };
+} else {
+  process.env;
+}
+
+const pool = new pg.Pool(configPg);
 
 //Register a new person to the application:
 //First, query so check if the person.username is exists in the database!
@@ -122,7 +125,6 @@ app.post("/api/login", (req, res) => {
             (err, token) => {
               if (err) throw error;
               let tok = token;
-              console.log("TOKEEEEEEEEEEEN", tok);
               getDataOfLoggedUser(dataFromDatabase, res, tok);
             }
           );
@@ -170,27 +172,30 @@ const getDataOfLoggedUser = (newUser, res, token) => {
 
 app.get("/api/getUserData", auth, (req, res) => {
   console.log("inside backend - /api/getUserData");
-  let username;
-  console.log("TTTTTEST", req.user);
+
+  const idOfUser = req.user.id;
+  let credentials = null;
+  let food = null;
+  //also, figure out how to use config package in production mode since i don't want to push config folder inside git...
+
   //Connect to the DB - Parameter is a function that gets err - error, db - new client inside the pool, done - release function
   pool.connect((err, db, done) => {
     if (err) return res.status(400).send(err);
 
+    db.query(`SELECT * FROM person WHERE id='${idOfUser}'`, (err, table) => {
+      if (err) return res.status(400).send(err);
+      credentials = table.rows;
+    });
+
     db.query(
-      `SELECT foodid, foodname, quantity FROM food INNER JOIN person ON (food.person_id = person.id) WHERE person.id='${newUser.id}'`,
+      `SELECT foodid, foodname, quantity FROM food INNER JOIN person ON (food.person_id = person.id) WHERE person.id='${idOfUser}'`,
       (err, table) => {
         done();
 
         if (err) return res.status(400).send(err);
 
-        console.log("Got the data from the user !");
-
-        const userData = {
-          credentials: newUser,
-          food: table.rows,
-          token: token,
-        };
-
+        food = table.rows;
+        const userData = { credentials, food };
         console.log("Sending the following data:", userData);
 
         return res.status(200).send({
