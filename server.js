@@ -16,7 +16,7 @@ const auth = require("./middleware/auth");
 //Config for working with postgres in localhost environment: (comes from default.json file now - environment json)
 
 let configPg = config.get("devConfig");
-
+console.log("CONFIG", configPg);
 if (process.env.NODE_ENV === "production") {
   configPg = {
     connectionString: process.env.DATABASE_URL,
