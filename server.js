@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan("dev"));
 const auth = require("./middleware/auth");
-//Great, ali is pushing for the first time
+//test only on develop;
 //Config for working with postgres in localhost environment: (comes from default.json file now - environment json)
 
 let configPg = config.get("devConfig");
