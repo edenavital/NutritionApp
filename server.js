@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(morgan("dev"));
 const auth = require("./middleware/auth");
-
+//CHANGING STUFF TRY TO PULL
 //Config for working with postgres in localhost environment: (comes from default.json file now - environment json)
 
 let configPg = config.get("devConfig");
@@ -22,8 +22,6 @@ if (process.env.NODE_ENV === "production") {
     connectionString: process.env.DATABASE_URL,
     ssl: true,
   };
-} else {
-  process.env;
 }
 
 const pool = new pg.Pool(configPg);
