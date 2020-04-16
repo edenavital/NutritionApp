@@ -9,6 +9,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { errorNot_UserExists, successNot_UserCreated } from "../../redux";
+
 class Register extends Component {
   state = {
     person: {
@@ -54,6 +55,7 @@ class Register extends Component {
         console.log(err);
         this.props.errorNot_UserExists();
       });
+    this.props.history.push("/home");
   };
 
   clearForm = () => {
@@ -155,7 +157,7 @@ class Register extends Component {
             type="submit"
             dynamicstyle={{ marginTop: "30px", marginBottom: "15px" }}
           >
-            SIGN IN
+            SIGN UP
           </Button>
         </form>
 
