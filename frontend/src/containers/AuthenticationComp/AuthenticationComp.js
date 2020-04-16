@@ -8,7 +8,6 @@ class AuthenticationComp extends Component {
   componentDidMount() {
     const { token } = this.props;
 
-    // const jwt = localStorage.getItem("JWT");
     if (token) {
       axios
         .get("/api/getUserData", {

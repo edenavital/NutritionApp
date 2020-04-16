@@ -119,7 +119,7 @@ app.post("/api/login", (req, res) => {
           jwt.sign(
             { id: dataFromDatabase.id },
             config.get("jwtSecret"),
-            { expiresIn: 3600 },
+            { expiresIn: "7d" },
             (err, token) => {
               if (err) throw error;
               let tok = token;
@@ -175,6 +175,7 @@ app.get("/api/getUserData", auth, (req, res) => {
   let credentials = null;
   let food = null;
   //also, figure out how to use config package in production mode since i don't want to push config folder inside git...
+  console.log("I'M INSIDE GETUSERDATA, AUTH HAS PASSED!");
 
   //Connect to the DB - Parameter is a function that gets err - error, db - new client inside the pool, done - release function
   pool.connect((err, db, done) => {
