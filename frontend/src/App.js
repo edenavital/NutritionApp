@@ -7,6 +7,8 @@ import { NotificationContainer } from "react-notifications";
 import Home from "./containers/Home/Home";
 import Food from "./components/Food/Food";
 import AuthenticationComp from "./containers/AuthenticationComp/AuthenticationComp";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import { ROUTERPATHS } from "./constants/constants";
 
 const App = () => {
   return (
@@ -14,11 +16,11 @@ const App = () => {
       <NotificationContainer />
       <Router>
         <Switch>
-          <Route path="/food" component={Food} />
-          <Route path="/home" component={Home} />
-          <Route path="/register" component={Register} />
-          <Route path="/login" component={Login} />
-          <Route path="/" component={AuthenticationComp} />
+          <ProtectedRoute exact path={ROUTERPATHS.FOOD} component={Food} />
+          <ProtectedRoute exact path={ROUTERPATHS.HOME} component={Home} />
+          <Route path={ROUTERPATHS.REGISTER} component={Register} />
+          <Route path={ROUTERPATHS.LOGIN} component={Login} />
+          <Route path={ROUTERPATHS.ROOT} component={AuthenticationComp} />
         </Switch>
       </Router>
     </div>

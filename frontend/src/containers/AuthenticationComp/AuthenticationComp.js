@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-
+import { ROUTERPATHS } from "../../constants/constants";
 import axios from "axios";
 import { saveDataFromDatabase } from "../../redux";
 import { connect } from "react-redux";
 
 class AuthenticationComp extends Component {
   componentDidMount() {
-    const { token } = this.props;
+    const { token, history, saveDataFromDatabase } = this.props;
 
     if (token) {
       axios
@@ -15,11 +15,15 @@ class AuthenticationComp extends Component {
         })
         .then((res) => {
           //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
-          this.props.saveDataFromDatabase(res.data.userData);
+          saveDataFromDatabase(res.data.userData);
           console.log(
             "FROM AUTHENTICATIONCOMP - JWT WAS FOUND - MOVING TO HOME"
           );
-          this.props.history.push("/home");
+          history.push(
+            history.location.state
+              ? history.location.state.from.pathname
+              : ROUTERPATHS.HOME
+          );
         })
         .catch(() => {
           console.log("SERVER ISSUE");
@@ -28,7 +32,7 @@ class AuthenticationComp extends Component {
       console.log(
         "FROM AUTHENTICATIONCOMP - JWT WAS NOT FOUND - MOVING TO LOGIN"
       );
-      this.props.history.push("/login");
+      history.push(ROUTERPATHS.LOGIN);
     }
   }
 
