@@ -37,7 +37,7 @@ class AuthenticationComp extends Component {
   }
 
   render() {
-    return <div style={{ visibility: "hidden" }}>AUTH</div>;
+    return <></>;
   }
 }
 

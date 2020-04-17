@@ -1,51 +1,23 @@
+
 import "./lib/notification.css";
 import { NotificationManager } from "react-notifications";
+//Modify - a notification should get type, text params
+//In redux - only because it is global
 
-//Create notification
-export const createNotification = type => {
-  return () => {
+export const createNotification = (type, message) => {
+
     switch (type) {
       case "info":
-        NotificationManager.info("Info message");
-        break;
+        return NotificationManager.info(message, "INFO!");
       case "warning":
-        NotificationManager.warning(
-          "Warning message",
-          "Close after 3000ms",
-          3000
-        );
-        break;
-      case "UserCreated":
-        NotificationManager.success("User has been created", "SUCCESS!");
-        break;
-      case "RightCredentials":
-        NotificationManager.success("Successfully logged in", "SUCCESS!");
-        break;
-      case "UserExists":
-        NotificationManager.error("User is already exists", "ERROR!");
-        break;
-      case "WrongCredentials":
-        NotificationManager.error(
-          "Wrong credentials. Please try again",
-          "ERROR!"
-        );
-        break;
+        return NotificationManager.warning(message, "WARNING!", 3000);
+      case "success":
+        return NotificationManager.success(message, "SUCCESS!");
+      case "error":
+        return NotificationManager.error(message, "ERROR!");
       default:
-        break;
+        return null;
     }
-  };
 };
 
-//The functions display alerts
-export const infoNotification = createNotification("info");
-export const warningNotification = createNotification("warning");
-
-//Register Component:
-export const successNot_UserCreated = createNotification("UserCreated");
-export const errorNot_UserExists = createNotification("UserExists");
-
-//Login Component:
-export const successNot_RightCredentials = createNotification(
-  "RightCredentials"
-);
-export const errorNot_WrongCredentials = createNotification("WrongCredentials");
+export const showNotification = (type, message) => createNotification(type, message);

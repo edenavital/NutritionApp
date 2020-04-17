@@ -53,7 +53,7 @@ app.post("/api/register", (req, res) => {
           console.log("User is being created");
           createNewPerson(req.body, res);
         } else {
-          return res.status(303).send({ msg: "User is already created " });
+          return res.status(303).send({ msg: "User is already exists" });
         }
 
         if (err) return res.status(400).send(err);
@@ -64,16 +64,16 @@ app.post("/api/register", (req, res) => {
 
 //Invokes if a person is not exists, so I am allowed to insert it!
 const createNewPerson = (newUser, res) => {
-  let { username, password, gender, age, height, weight } = newUser;
+  let { username, name, password, gender, age, height, weight } = newUser;
 
-  const values = [username, password, gender, age, height, weight];
+  const values = [username, name, password, gender, age, height, weight];
   console.log("Im inside createNewPerson!:", values);
 
   pool.connect((err, db, done) => {
     if (err) return res.status(400).send(err);
 
     db.query(
-      "INSERT INTO person (username, password, gender, age, height, weight) VALUES($1, $2, $3, $4, $5, $6)",
+      "INSERT INTO person (username, name, password, gender, age, height, weight) VALUES($1, $2, $3, $4, $5, $6, $7)",
       [...values],
       (err) => {
         done();
@@ -174,7 +174,6 @@ app.get("/api/getUserData", auth, (req, res) => {
   const idOfUser = req.user.id;
   let credentials = null;
   let food = null;
-  //also, figure out how to use config package in production mode since i don't want to push config folder inside git...
   console.log("I'M INSIDE GETUSERDATA, AUTH HAS PASSED!");
 
   //Connect to the DB - Parameter is a function that gets err - error, db - new client inside the pool, done - release function

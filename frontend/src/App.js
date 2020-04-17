@@ -7,8 +7,8 @@ import { NotificationContainer } from "react-notifications";
 import Home from "./containers/Home/Home";
 import Food from "./components/Food/Food";
 import AuthenticationComp from "./containers/AuthenticationComp/AuthenticationComp";
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import { ROUTERPATHS } from "./constants/constants";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 const App = () => {
   return (

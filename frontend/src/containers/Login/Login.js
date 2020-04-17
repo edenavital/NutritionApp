@@ -8,13 +8,13 @@ import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import {
-  errorNot_WrongCredentials,
-  successNot_RightCredentials,
   saveDataLogin,
   resetStateApp,
   resetStateUser,
+  showNotification,
 } from "../../redux";
 import { connect } from "react-redux";
+import {NOTIFICATION_TYPES} from '../../constants/constants';
 
 class Login extends Component {
   state = {
@@ -40,16 +40,15 @@ class Login extends Component {
     axios
       .post("/api/login", person)
       .then((res) => {
-        //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
-
-        this.props.successNot_RightCredentials();
+        //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!        
+        showNotification(NOTIFICATION_TYPES.SUCCESS, "SUCCESS LOGIN");
         this.props.saveDataLogin(res.data.userData);
         localStorage.setItem("JWT", res.data.userData.token);
         this.props.history.push("/home");
       })
       .catch(() => {
         console.log("Credentials not match ...");
-        this.props.errorNot_WrongCredentials();
+        showNotification(NOTIFICATION_TYPES.ERROR, "ERROR");
       });
   };
 
@@ -105,8 +104,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    errorNot_WrongCredentials: () => errorNot_WrongCredentials(),
-    successNot_RightCredentials: () => successNot_RightCredentials(),
     saveDataLogin: (userData) => dispatch(saveDataLogin(userData)),
     resetStateApp: () => dispatch(resetStateApp()),
     resetStateUser: () => dispatch(resetStateUser()),

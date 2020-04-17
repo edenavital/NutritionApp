@@ -7,8 +7,10 @@ import Label from "../../components/Label/Label";
 import Button from "../../components/Button/Button";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { errorNot_UserExists, successNot_UserCreated } from "../../redux";
+import {
+  showNotification,
+} from "../../redux";
+import {NOTIFICATION_TYPES} from '../../constants/constants';
 
 class Register extends Component {
   state = {
@@ -33,7 +35,9 @@ class Register extends Component {
 
   onSubmitForm = (e) => {
     e.preventDefault();
-    const person = { ...this.state.person };
+    const {person} = this.state;
+    const {history} = this.props;
+    
 
     console.log(`Sending to BACKEND the following person:
             username - ${person.username},
@@ -48,14 +52,15 @@ class Register extends Component {
       .post("/api/register", person)
       .then((res) => {
         console.log(res.data);
-        this.props.successNot_UserCreated();
+        showNotification(NOTIFICATION_TYPES.SUCCESS, "Registration completed successfully");
         this.clearForm();
       })
       .catch((err) => {
         console.log(err);
-        this.props.errorNot_UserExists();
+        showNotification(NOTIFICATION_TYPES.ERROR, "User is already exists");
       });
-    this.props.history.push("/home");
+
+    history.push("/home");
   };
 
   clearForm = () => {
@@ -169,15 +174,4 @@ class Register extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {};
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    errorNot_UserExists: () => errorNot_UserExists(),
-    successNot_UserCreated: () => successNot_UserCreated(),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default Register;

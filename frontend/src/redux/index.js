@@ -1,8 +1,5 @@
 export {
-  successNot_UserCreated,
-  successNot_RightCredentials,
-  errorNot_UserExists,
-  errorNot_WrongCredentials,
+  showNotification,
 } from "./notification/notificationActions";
 
 export {
