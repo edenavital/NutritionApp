@@ -7,10 +7,8 @@ import Label from "../../components/Label/Label";
 import Button from "../../components/Button/Button";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import {
-  showNotification,
-} from "../../redux";
-import {NOTIFICATION_TYPES} from '../../constants/constants';
+import { showNotification } from "../../redux";
+import { NOTIFICATION_TYPES } from "../../constants/constants";
 
 class Register extends Component {
   state = {
@@ -21,6 +19,7 @@ class Register extends Component {
       age: "",
       height: "",
       weight: "",
+      name: "",
     },
   };
 
@@ -35,9 +34,8 @@ class Register extends Component {
 
   onSubmitForm = (e) => {
     e.preventDefault();
-    const {person} = this.state;
-    const {history} = this.props;
-    
+    const { person } = this.state;
+    const { history } = this.props;
 
     console.log(`Sending to BACKEND the following person:
             username - ${person.username},
@@ -45,14 +43,18 @@ class Register extends Component {
             gender - ${person.gender},
             age - ${person.age},
             height - ${person.height},
-            weight - ${person.weight}
+            weight - ${person.weight},
+            name - ${person.name},
         `);
 
     axios
       .post("/api/register", person)
       .then((res) => {
         console.log(res.data);
-        showNotification(NOTIFICATION_TYPES.SUCCESS, "Registration completed successfully");
+        showNotification(
+          NOTIFICATION_TYPES.SUCCESS,
+          "Registration completed successfully"
+        );
         this.clearForm();
       })
       .catch((err) => {
@@ -72,6 +74,7 @@ class Register extends Component {
         age: "",
         height: "",
         weight: "",
+        name: "",
       },
     });
   };
@@ -91,6 +94,14 @@ class Register extends Component {
           <Input
             type="text"
             id="username"
+            value={this.state.person.username}
+            onChange={this.handleInputChange}
+            required
+          />
+          <Label htmlFor="name">Full Name</Label>
+          <Input
+            type="text"
+            id="name"
             value={this.state.person.username}
             onChange={this.handleInputChange}
             required

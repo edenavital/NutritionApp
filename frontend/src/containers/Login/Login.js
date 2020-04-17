@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./Login.css";
 import Icon from "../../components/Icon/Icon";
 import Title from "../../components/Title/Title";
 import Input from "../../components/Input/Input";
@@ -14,7 +13,7 @@ import {
   showNotification,
 } from "../../redux";
 import { connect } from "react-redux";
-import {NOTIFICATION_TYPES} from '../../constants/constants';
+import { NOTIFICATION_TYPES } from "../../constants/constants";
 
 class Login extends Component {
   state = {
@@ -40,7 +39,7 @@ class Login extends Component {
     axios
       .post("/api/login", person)
       .then((res) => {
-        //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!        
+        //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
         showNotification(NOTIFICATION_TYPES.SUCCESS, "SUCCESS LOGIN");
         this.props.saveDataLogin(res.data.userData);
         localStorage.setItem("JWT", res.data.userData.token);
@@ -54,43 +53,46 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="Login">
-        <Icon iconName="diet" width="100px" height="100px" />
+      <div className="container">
+        <div className="Login">
+          <Icon iconName="diet" width="100px" height="100px" />
+          <div className="description pt-4">
+            <h4 className="text-success">Welcome to Nutrition App</h4>
+            <p>Sign in to continue</p>
+          </div>
 
-        <div className="description">
-          <Title>Welcome to Nutrition App</Title>
-          <p>Sign in to continue</p>
+          <form onSubmit={this.onSubmitForm}>
+            <label className="d" htmlFor="username">
+              Username
+            </label>
+            <Input
+              type="text"
+              id="username"
+              value={this.state.person.username}
+              onChange={this.handleInputChange}
+              required
+            />
+            <Label htmlFor="password">Password</Label>
+            <Input
+              type="password"
+              id="password"
+              value={this.state.person.password}
+              onChange={this.handleInputChange}
+              required
+            />
+
+            <Button
+              type="submit"
+              dynamicstyle={{ marginTop: "30px", marginBottom: "15px" }}
+            >
+              SIGN IN
+            </Button>
+          </form>
+
+          <p className="Signin">
+            <Link to="/register">SIGN UP</Link> FOR AN ACCOUNT
+          </p>
         </div>
-
-        <form onSubmit={this.onSubmitForm}>
-          <Label htmlFor="username">Username</Label>
-          <Input
-            type="text"
-            id="username"
-            value={this.state.person.username}
-            onChange={this.handleInputChange}
-            required
-          />
-          <Label htmlFor="password">Password</Label>
-          <Input
-            type="password"
-            id="password"
-            value={this.state.person.password}
-            onChange={this.handleInputChange}
-            required
-          />
-
-          <Button
-            type="submit"
-            dynamicstyle={{ marginTop: "30px", marginBottom: "15px" }}
-          >
-            SIGN UP
-          </Button>
-        </form>
-
-        <p className="Signin">
-          <Link to="/register">SIGN UP</Link> FOR AN ACCOUNT
-        </p>
       </div>
     );
   }
