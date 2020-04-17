@@ -1,6 +1,5 @@
 import React from "react";
-import "./Label.css";
-const Label = props => {
+const Label = (props) => {
   return (
     <label {...props} className="Label">
       {props.children}

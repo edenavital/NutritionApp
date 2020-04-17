@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import Login from "./containers/Login/Login";
 import Register from "./containers/Register/Register";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";

@@ -1,0 +1,15 @@
+// main colors
+$blue: #007bff !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #e83e8c !default;
+$red: #dc3545 !default;
+$orange: #fd7e14 !default;
+$yellow: #ffc107 !default;
+$green: #4caf50 !default;
+$teal: #20c997 !default;
+$cyan: #17a2b8 !default;
+
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700;800&family=Poppins:wght@200;300;500;700;900&display=swap");
+@import "~bootstrap/scss/bootstrap";
+@import "main";
