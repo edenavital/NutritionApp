@@ -15,6 +15,8 @@ import {
 import { connect } from "react-redux";
 import { NOTIFICATION_TYPES } from "../../constants/constants";
 
+import TextField from '@material-ui/core/TextField';
+
 class Login extends Component {
   state = {
     person: {
@@ -74,6 +76,7 @@ class Login extends Component {
               />
               <label htmlFor="username">Username</label>
             </div>
+
             <div className="float-input-box">
               <input
                 className={

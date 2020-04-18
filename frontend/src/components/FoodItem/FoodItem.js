@@ -1,20 +1,57 @@
-import React from "react";
+import React, {Component} from "react";
 import "./FoodItem.css";
 import {MdAddCircle} from 'react-icons/md';
+import axios from 'axios';
+import { connect } from "react-redux";
+import {addFood} from '../../redux'
+class FoodItem extends Component {
 
-function FoodItem(props) {
+
+  onClickFood = () => {
+    const {token, id, name, addFood} = this.props;
+
+    console.log("onClickFood invoked !")
+    console.log("FROM FOODITEM ,SELECT FOOD ID IS: ", id);
+
+    const newFood = {
+      foodid: id,
+      foodname: name,
+    }
+
+    axios.post('/api/addFood', newFood, {
+      headers: { Authorization: token },
+    }).then((res) => {
+      console.log("BACK TO FRONTEND, res.data: ",res.data);
+      addFood(res.data.addedFood);
+      
+    }).catch(err => console.log(err))
+  }
+
+  render() {
   return (
     <div className="FoodItem">
-      <div className="food">
-        <img src={props.img.thumb} width="50px" height="50px" alt="food" />
+        <div className="food">
+          <img src={this.props.img.thumb} width="50px" height="50px" alt="food" />
+          <h4>{this.props.name}</h4>
+          <p>{this.props.calories.toFixed(0)}</p>
+        </div>
 
-        <h4>{props.name}</h4>
-        <p>{props.calories.toFixed(0)}</p>
+        <MdAddCircle className="h2" onClick={this.onClickFood}/>
       </div>
-
-      <MdAddCircle className="h2"/>
-    </div>
-  );
+    );
+  }
 }
 
-export default FoodItem;
+const mapStateToProps = (state) => {
+  return {
+    token: state.user.token,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addFood: (newFood) => dispatch(addFood(newFood)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FoodItem);

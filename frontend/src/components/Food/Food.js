@@ -41,7 +41,6 @@ class Food extends Component {
         let data = res.data.common;
         console.log("ARRAY BEFORE FILTER IS:", data);
         //Filtering out any duplicates (Any objects that their tag_id property is idenical to a different one)
-
         for (let i = 0; i < data.length; i++) {
           let storedTag = data[i].tag_id;
           console.log("storedTag: ", storedTag);
@@ -100,6 +99,7 @@ class Food extends Component {
         return (
           <FoodItem
             key={food.tag_id}
+            id={food.tag_id}
             name={food.food_name}
             img={food.photo}
             calories={calories}

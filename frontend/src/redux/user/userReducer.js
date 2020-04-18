@@ -2,6 +2,7 @@ import {
   SAVE_DATA_FROM_DATABASE,
   RESET_STATE_APP,
   SAVE_DATA_LOGIN,
+  ADD_FOOD,
 } from "./userTypes";
 
 const initialState = {
@@ -29,6 +30,16 @@ const userReducer = (state = initialState, action) => {
         ...initialState,
         token: null,
       };
+    case ADD_FOOD:
+      return {
+        ...state,
+        food: [...state.food, action.payload],
+      };
+
+
+
+
+
     default:
       return state;
   }

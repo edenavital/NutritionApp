@@ -6,6 +6,7 @@ export {
   saveDataFromDatabase,
   resetStateUser,
   saveDataLogin,
+  addFood,
 } from "./user/userActions";
 
 export {

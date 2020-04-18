@@ -205,6 +205,77 @@ app.get("/api/getUserData", auth, (req, res) => {
   });
 });
 
+
+//Add Food
+app.post("/api/addFood", auth, (req, res) => {
+  console.log("inside backend - /api/addFood");
+  console.log("REQ BODY:", req.body);
+  console.log("REQ HEADERS:", req.headers.authorization);
+
+  //Destruct the data from the client
+  const idOfUser = req.user.id;
+  const foodReq = req.body;
+  const values = [idOfUser, foodReq.foodid, foodReq.foodname, 1];
+  let updatingExistingFood = false;
+
+  pool.connect((err, db, done) => {
+    if (err) return res.status(400).send(err);
+
+    db.query(`SELECT * FROM food WHERE foodid='${foodReq.foodid}'`, (err, table) => {
+      if (err) return res.status(400).send(err);
+
+      console.log('SELECT ALL FROM FOOD WHERE... ',table.rows);
+      console.log(table.rows.length);
+     
+      if(table.rows.length > 0) {
+        updatingExistingFood = true;
+      }
+
+    });
+
+    console.log('updatingExistingFood', updatingExistingFood);
+    if(updatingExistingFood) {
+      console.log("UPDATING MODE FFS")
+      db.query(
+        "UPDATE food SET quantity=quantity+'1' RETURNING foodid, foodname, quantity;",
+        [...values],
+        (err, table) => {
+          done();
+  
+          console.log("FROM SERVER, AFTER INSERT FOOD WHAT I GET: ", table.rows[0]);
+  
+          if (err) return res.status(400).send(err);
+  
+          console.log("A new food has been added successfully!");
+          return res.status(201).send({ addedFood: table.rows[0], msg: "Food has been successfully added" });
+        }
+      );
+    }
+    db.query(
+      "insert into food (person_id, foodid, foodname, quantity) VALUES ($1, $2, $3, $4) RETURNING foodid, foodname, quantity;",
+      [...values],
+      (err, table) => {
+        done();
+
+        console.log("FROM SERVER, AFTER INSERT FOOD WHAT I GET: ", table.rows[0]);
+
+        if (err) return res.status(400).send(err);
+
+        console.log("A new food has been added successfully!");
+        return res.status(201).send({ addedFood: table.rows[0], msg: "Food has been successfully added" });
+      }
+    );
+  });
+});
+
+
+
+
+
+
+
+
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/build")));
 
