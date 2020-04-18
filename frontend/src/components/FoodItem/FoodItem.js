@@ -1,5 +1,7 @@
 import React from "react";
 import "./FoodItem.css";
+import {MdAddCircle} from 'react-icons/md';
+
 function FoodItem(props) {
   return (
     <div className="FoodItem">
@@ -10,13 +12,7 @@ function FoodItem(props) {
         <p>{props.calories.toFixed(0)}</p>
       </div>
 
-      <img
-        className="addIcon"
-        src="https://www.pngitem.com/pimgs/m/112-1121197_ios-add-icon-green-hd-png-download.png"
-        width="50px"
-        height="50px"
-        alt="addIcon"
-      />
+      <MdAddCircle className="h2"/>
     </div>
   );
 }
