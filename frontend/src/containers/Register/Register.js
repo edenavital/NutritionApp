@@ -14,12 +14,12 @@ class Register extends Component {
   state = {
     person: {
       username: "",
+      name: "",
       password: "",
       gender: "",
       age: "",
       height: "",
       weight: "",
-      name: "",
     },
   };
 
@@ -69,12 +69,12 @@ class Register extends Component {
     this.setState({
       person: {
         username: "",
+        name: "",
         password: "",
         gender: "",
         age: "",
         height: "",
         weight: "",
-        name: "",
       },
     });
   };
@@ -102,7 +102,7 @@ class Register extends Component {
           <Input
             type="text"
             id="name"
-            value={this.state.person.username}
+            value={this.state.person.name}
             onChange={this.handleInputChange}
             required
           />
