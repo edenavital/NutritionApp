@@ -10,6 +10,17 @@ $green: #4caf50 !default;
 $teal: #20c997 !default;
 $cyan: #17a2b8 !default;
 
+//corners
+$border-radius: 0.5rem !default;
+$border-radius-lg: 0.3rem !default;
+$border-radius-sm: 0.2rem !default;
+
+//transitions
+$transition-spring: all 0.3s ease-in-out !default;
+
+//basically this is our main gap space
+$grid-gutter-width: 32px !default;
+
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700;800&family=Poppins:wght@200;300;500;700;900&display=swap");
 @import "~bootstrap/scss/bootstrap";
 @import "main";

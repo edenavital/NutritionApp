@@ -31,7 +31,6 @@ class Login extends Component {
     updatedPerson[key] = value;
     this.setState({ person: updatedPerson });
   };
-
   onSubmitForm = (e) => {
     e.preventDefault();
     const person = this.state.person;
@@ -62,25 +61,32 @@ class Login extends Component {
           </div>
 
           <form onSubmit={this.onSubmitForm}>
-            <label className="d" htmlFor="username">
-              Username
-            </label>
-            <Input
-              type="text"
-              id="username"
-              value={this.state.person.username}
-              onChange={this.handleInputChange}
-              required
-            />
-            <Label htmlFor="password">Password</Label>
-            <Input
-              type="password"
-              id="password"
-              value={this.state.person.password}
-              onChange={this.handleInputChange}
-              required
-            />
-
+            <div className="float-input-box pt-1">
+              <input
+                className={
+                  this.state.person.username.length !== 0 ? "input-filled" : ""
+                }
+                type="text"
+                id="username"
+                value={this.state.person.username}
+                onChange={this.handleInputChange}
+                required
+              />
+              <label htmlFor="username">Username</label>
+            </div>
+            <div className="float-input-box">
+              <input
+                className={
+                  this.state.person.username.length !== 0 ? "input-filled" : ""
+                }
+                type="password"
+                id="password"
+                value={this.state.person.password}
+                onChange={this.handleInputChange}
+                required
+              />
+              <label htmlFor="password">Password</label>
+            </div>
             <Button
               type="submit"
               dynamicstyle={{ marginTop: "30px", marginBottom: "15px" }}

@@ -69,12 +69,12 @@ class Register extends Component {
     this.setState({
       person: {
         username: "",
+        name: "",
         password: "",
         gender: "",
         age: "",
         height: "",
         weight: "",
-        name: "",
       },
     });
   };
