@@ -4,5 +4,8 @@
         "login",
         "routerpaths",
         "signup"
+    ],
+    "cSpell.words": [
+        "xlarge"
     ]
 }

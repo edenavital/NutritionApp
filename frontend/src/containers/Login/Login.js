@@ -24,6 +24,7 @@ class Login extends Component {
       password: "",
     },
   };
+
   handleInputChange = (e) => {
     const key = e.target.id;
     const value = e.target.value;
@@ -116,58 +117,68 @@ class Login extends Component {
           <div className="container">
             <div className="d-flex min-vh-100 justify-content-center align-items-center">
               <div className="col-5">
-                <div className="p-4 bg-white shadow rounded-lg">
-                  <Icon iconName="diet" width="100px" height="100px" />
-                  <div className="description pt-4">
-                    <h4 className="text-success">Welcome to Nutrition App</h4>
-                    <p>Sign in to continue</p>
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    visible: { opacity: 1, scale: 1 },
+                    hidden: { opacity: 0, scale: 0.9 },
+                  }}
+                  transition={{ type: "spring" }}
+                >
+                  <div className="p-4 bg-white shadow rounded-lg">
+                    <Icon iconName="diet" width="100px" height="100px" />
+                    <div className="description pt-4">
+                      <h4 className="text-success">Welcome to Nutrition App</h4>
+                      <p>Sign in to continue</p>
+                    </div>
+
+                    <form onSubmit={this.onSubmitForm}>
+                      <div className="float-input-box pt-1">
+                        <input
+                          className={
+                            this.state.person.username.length !== 0
+                              ? "input-filled"
+                              : ""
+                          }
+                          type="text"
+                          id="username"
+                          value={this.state.person.username}
+                          onChange={this.handleInputChange}
+                          required
+                        />
+                        <label htmlFor="username">Username</label>
+                      </div>
+                      <div className="float-input-box">
+                        <input
+                          className={
+                            this.state.person.password.length !== 0
+                              ? "input-filled"
+                              : ""
+                          }
+                          type="password"
+                          id="password"
+                          value={this.state.person.password}
+                          onChange={this.handleInputChange}
+                          required
+                        />
+                        <label htmlFor="password">Password</label>
+                      </div>
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="btn btn-success text-left mb-3 mt-2"
+                        type="submit"
+                      >
+                        Sign in
+                      </motion.button>
+                    </form>
+
+                    <p className="Signin">
+                      <Link to="/register">Sign up</Link> For an account
+                    </p>
                   </div>
-
-                  <form onSubmit={this.onSubmitForm}>
-                    <div className="float-input-box pt-1">
-                      <input
-                        className={
-                          this.state.person.username.length !== 0
-                            ? "input-filled"
-                            : ""
-                        }
-                        type="text"
-                        id="username"
-                        value={this.state.person.username}
-                        onChange={this.handleInputChange}
-                        required
-                      />
-                      <label htmlFor="username">Username</label>
-                    </div>
-                    <div className="float-input-box">
-                      <input
-                        className={
-                          this.state.person.password.length !== 0
-                            ? "input-filled"
-                            : ""
-                        }
-                        type="password"
-                        id="password"
-                        value={this.state.person.password}
-                        onChange={this.handleInputChange}
-                        required
-                      />
-                      <label htmlFor="password">Password</label>
-                    </div>
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="btn btn-success text-left mb-3 mt-2"
-                      type="submit"
-                    >
-                      Sign in
-                    </motion.button>
-                  </form>
-
-                  <p className="Signin">
-                    <Link to="/register">Sign up</Link> For an account
-                  </p>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
