@@ -14,10 +14,12 @@ body {
 }
 
 //inputs and labels
+
 .float-input-box {
   position: relative;
   display: flex;
   align-items: center;
+  margin-bottom: $spacer;
   label {
     transition: $transition-spring;
     background-color: white;
@@ -49,11 +51,17 @@ body {
   input::placeholder {
     opacity: 0;
   }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+  }
 }
 
 .input-filled {
   + label {
-    transform: scale(0.75) translateY(-100%);
+    transform: scale(0.75) translateY(-33px);
   }
 }
 
