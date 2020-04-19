@@ -1,4 +1,3 @@
-
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Poppins", "Segoe UI",
@@ -23,8 +22,8 @@ body {
   left: 0 !important;
 }
 .notification {
-  margin-right: $grid-gutter-width;
-  margin-left: $grid-gutter-width;
+  margin: $grid-gutter-width;
+  box-shadow: $box-shadow;
 }
 
 //inputs and labels
@@ -114,7 +113,6 @@ body {
   color: #61dafb;
 }
 
-
 //Key Frames
 @keyframes App-logo-spin {
   from {
@@ -125,9 +123,13 @@ body {
   }
 }
 
-
 //Icons:
-svg.h1, svg.h2, svg.h3, svg.h4, svg.h5, svg.h6 {margin:0; padding:0;}
-
-
-
+svg.h1,
+svg.h2,
+svg.h3,
+svg.h4,
+svg.h5,
+svg.h6 {
+  margin: 0;
+  padding: 0;
+}
