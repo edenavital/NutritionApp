@@ -38,6 +38,11 @@ $transition-spring: all 0.3s ease-in-out !default;
 //basically this is our main gap space
 $grid-gutter-width: 32px !default;
 
+//shadows
+$box-shadow-sm: 0 0.125rem 0.25rem rgba($black, 0.075) !default;
+$box-shadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
+$box-shadow-lg: 0 1rem 3rem rgba($black, 0.175) !default;
+
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700;800&family=Poppins:wght@200;300;500;700;900&display=swap");
 @import "~bootstrap/scss/bootstrap";
 @import "main";

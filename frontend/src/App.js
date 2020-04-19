@@ -2,7 +2,6 @@ import React from "react";
 import Login from "./containers/Login/Login";
 import Register from "./containers/Register/Register";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { NotificationContainer } from "react-notifications";
 import Home from "./containers/Home/Home";
 import Food from "./components/Food/Food";
 import AuthenticationComp from "./containers/AuthenticationComp/AuthenticationComp";
@@ -13,7 +12,6 @@ import { BreakpointProvider } from "react-socks";
 const App = () => {
   return (
     <div className="App">
-      <NotificationContainer />
       <BreakpointProvider>
         <Router>
           <Switch>
