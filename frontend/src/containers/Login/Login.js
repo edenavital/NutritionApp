@@ -1,9 +1,5 @@
 import React, { Component } from "react";
 import Icon from "../../components/Icon/Icon";
-import Title from "../../components/Title/Title";
-import Input from "../../components/Input/Input";
-import Label from "../../components/Label/Label";
-import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
 import { Breakpoint } from "react-socks";
 import { motion } from "framer-motion";

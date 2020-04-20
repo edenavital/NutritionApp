@@ -1,12 +1,11 @@
-export {
-  showNotification,
-} from "./notification/notificationActions";
+export { showNotification } from "./notification/notificationActions";
 
 export {
   saveDataFromDatabase,
   resetStateUser,
   saveDataLogin,
   addFood,
+  increaseFood,
 } from "./user/userActions";
 
 export {

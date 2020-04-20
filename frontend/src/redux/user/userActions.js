@@ -2,7 +2,8 @@ import {
   SAVE_DATA_FROM_DATABASE,
   RESET_STATE_APP,
   SAVE_DATA_LOGIN,
-  ADD_FOOD
+  ADD_FOOD,
+  INCREASE_FOOD,
 } from "./userTypes";
 
 //Including token
@@ -28,10 +29,16 @@ export const resetStateUser = () => {
   };
 };
 
-
 export const addFood = (newFood) => {
   return {
     type: ADD_FOOD,
+    payload: newFood,
+  };
+};
+
+export const increaseFood = (newFood) => {
+  return {
+    type: INCREASE_FOOD,
     payload: newFood,
   };
 };

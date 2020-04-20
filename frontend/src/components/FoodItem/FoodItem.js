@@ -1,42 +1,53 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import "./FoodItem.css";
-import {MdAddCircle} from 'react-icons/md';
-import axios from 'axios';
+import { MdAddCircle } from "react-icons/md";
+import axios from "axios";
 import { connect } from "react-redux";
-import {addFood} from '../../redux'
+import { addFood, increaseFood } from "../../redux";
 class FoodItem extends Component {
-
-
   onClickFood = () => {
-    const {token, id, name, addFood} = this.props;
+    const { token, id, name, addFood, increaseFood } = this.props;
 
-    console.log("onClickFood invoked !")
+    console.log("onClickFood invoked !");
     console.log("FROM FOODITEM ,SELECT FOOD ID IS: ", id);
 
     const newFood = {
       foodid: id,
       foodname: name,
-    }
+    };
 
-    axios.post('/api/addFood', newFood, {
-      headers: { Authorization: token },
-    }).then((res) => {
-      console.log("BACK TO FRONTEND, res.data: ",res.data);
-      addFood(res.data.addedFood);
-      
-    }).catch(err => console.log(err))
-  }
+    axios
+      .post("/api/addFood", newFood, {
+        headers: { Authorization: token },
+      })
+      .then((res) => {
+        console.log("BACK TO FRONTEND, res.data: ", res.data);
+        const addedFood = res.data.addedFood;
+
+        if (addedFood.quantity > 1) {
+          increaseFood(addedFood);
+        } else {
+          addFood(addedFood);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   render() {
-  return (
-    <div className="FoodItem">
+    return (
+      <div className="FoodItem">
         <div className="food">
-          <img src={this.props.img.thumb} width="50px" height="50px" alt="food" />
+          <img
+            src={this.props.img.thumb}
+            width="50px"
+            height="50px"
+            alt="food"
+          />
           <h4>{this.props.name}</h4>
           <p>{this.props.calories.toFixed(0)}</p>
         </div>
 
-        <MdAddCircle className="h2" onClick={this.onClickFood}/>
+        <MdAddCircle className="h2" onClick={this.onClickFood} />
       </div>
     );
   }
@@ -51,7 +62,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addFood: (newFood) => dispatch(addFood(newFood)),
-  }
-}
+    increaseFood: (newFood) => dispatch(increaseFood(newFood)),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FoodItem);

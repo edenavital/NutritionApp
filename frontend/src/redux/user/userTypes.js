@@ -1,4 +1,5 @@
 export const SAVE_DATA_LOGIN = "SAVE_DATA_LOGIN";
 export const SAVE_DATA_FROM_DATABASE = "SAVE_DATA_FROM_DATABASE";
 export const RESET_STATE_APP = "RESET_STATE_APP";
-export const ADD_FOOD = "ADD_FOOD"
+export const ADD_FOOD = "ADD_FOOD";
+export const INCREASE_FOOD = "INCREASE_FOOD";
