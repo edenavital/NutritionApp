@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 const jwt = require("jsonwebtoken");
 const config = require("config");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -186,7 +187,7 @@ app.get("/api/getUserData", auth, (req, res) => {
     });
 
     db.query(
-      `SELECT foodid, foodname, quantity FROM food INNER JOIN person ON (food.person_id = person.id) WHERE person.id='${idOfUser}'`,
+      `SELECT foodid, foodname, calories, quantity FROM food INNER JOIN person ON (food.person_id = person.id) WHERE person.id='${idOfUser}'`,
       (err, table) => {
         done();
 
@@ -205,14 +206,20 @@ app.get("/api/getUserData", auth, (req, res) => {
   });
 });
 
-//Add Food
-app.post("/api/addFood", auth, (req, res) => {
+//Increase Food - add new row or increase quantity
+app.post("/api/increaseFood", auth, (req, res) => {
   console.log("inside backend - /api/addFood");
   console.log("REQ BODY:", req.body);
 
   const idOfUser = req.user.id;
   const foodReq = req.body;
-  const values = [idOfUser, foodReq.foodid, foodReq.foodname, 1];
+  const values = [
+    idOfUser,
+    foodReq.foodid,
+    foodReq.foodname,
+    foodReq.calories,
+    1,
+  ];
 
   pool.connect(async (err, db, done) => {
     if (err) return res.status(400).send(err);
@@ -239,7 +246,7 @@ app.post("/api/addFood", auth, (req, res) => {
     if (await updatingExistingFood) {
       console.log("UPDATING MODE FFS");
       db.query(
-        `UPDATE food SET quantity=quantity+1 WHERE foodid='${foodReq.foodid}' RETURNING foodid, foodname, quantity;`,
+        `UPDATE food SET quantity=quantity+1 WHERE foodid='${foodReq.foodid}' RETURNING foodid, foodname, calories, quantity;`,
         (err, table) => {
           done();
 
@@ -259,7 +266,7 @@ app.post("/api/addFood", auth, (req, res) => {
       );
     } else {
       db.query(
-        "insert into food (person_id, foodid, foodname, quantity) VALUES ($1, $2, $3, $4) RETURNING foodid, foodname, quantity;",
+        "insert into food (person_id, foodid, foodname, calories, quantity) VALUES ($1, $2, $3, $4, $5) RETURNING foodid, foodname, calories, quantity;",
         [...values],
         (err, table) => {
           done();
@@ -281,6 +288,88 @@ app.post("/api/addFood", auth, (req, res) => {
     }
   });
 });
+
+//Decrease Food - remove row or decrease quantity
+// app.post("/api/decreaseFood", auth, (req, res) => {
+//   console.log("inside backend - /api/addFood");
+//   console.log("REQ BODY:", req.body);
+
+//   const idOfUser = req.user.id;
+//   const foodReq = req.body;
+//   const values = [
+//     idOfUser,
+//     foodReq.foodid,
+//     foodReq.foodname,
+//     foodReq.calories,
+//     1,
+//   ];
+
+//   pool.connect(async (err, db, done) => {
+//     if (err) return res.status(400).send(err);
+
+//     let updatingExistingFood = new Promise((resolve, reject) => {
+//       db.query(
+//         `SELECT * FROM food WHERE foodid='${foodReq.foodid}'`,
+//         (err, table) => {
+//           if (err) return res.status(400).send(err);
+
+//           console.log("SELECT ALL FROM FOOD WHERE... ", table.rows);
+//           console.log(table.rows.length);
+
+//           if (table.rows.length > 0) {
+//             console.log("ENTERED CONDITION");
+//             resolve(true);
+//           } else {
+//             resolve(false);
+//           }
+//         }
+//       );
+//     });
+
+//     if (await updatingExistingFood) {
+//       db.query(
+//         `UPDATE food SET quantity=quantity+1 WHERE foodid='${foodReq.foodid}' RETURNING foodid, foodname, calories, quantity;`,
+//         (err, table) => {
+//           done();
+
+//           console.log(
+//             "FROM SERVER, AFTER INSERT FOOD WHAT I GET: ",
+//             table.rows[0]
+//           );
+
+//           if (err) return res.status(400).send(err);
+
+//           console.log("A new food has been added successfully!");
+//           return res.status(201).send({
+//             addedFood: table.rows[0],
+//             msg: "Food has been successfully added",
+//           });
+//         }
+//       );
+//     } else {
+//       db.query(
+//         "insert into food (person_id, foodid, foodname, calories, quantity) VALUES ($1, $2, $3, 4$, $5) RETURNING foodid, foodname, calories, quantity;",
+//         [...values],
+//         (err, table) => {
+//           done();
+
+//           console.log(
+//             "FROM SERVER, AFTER INSERT FOOD WHAT I GET: ",
+//             table.rows[0]
+//           );
+
+//           if (err) return res.status(400).send(err);
+
+//           console.log("A new food has been added successfully!");
+//           return res.status(201).send({
+//             addedFood: table.rows[0],
+//             msg: "Food has been successfully added",
+//           });
+//         }
+//       );
+//     }
+//   });
+// });
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/build")));

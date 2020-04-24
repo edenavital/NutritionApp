@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { addFood, increaseFood } from "../../redux";
 class FoodItem extends Component {
   onClickFood = () => {
-    const { token, id, name, addFood, increaseFood } = this.props;
+    const { token, id, name, addFood, increaseFood, calories } = this.props;
 
     console.log("onClickFood invoked !");
     console.log("FROM FOODITEM ,SELECT FOOD ID IS: ", id);
@@ -14,10 +14,11 @@ class FoodItem extends Component {
     const newFood = {
       foodid: id,
       foodname: name,
+      calories: calories.toFixed(0),
     };
 
     axios
-      .post("/api/addFood", newFood, {
+      .post("/api/increaseFood", newFood, {
         headers: { Authorization: token },
       })
       .then((res) => {

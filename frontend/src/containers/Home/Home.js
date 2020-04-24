@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { toggleSideDrawer } from "../../redux";
 import SideDrawer from "../../components/SideDrawer/SideDrawer";
 import { resetStateApp, resetStateUser } from "../../redux";
+import Pie from "../../components/Pie/Pie";
 class Home extends Component {
   logout = () => {
     localStorage.removeItem("JWT");
@@ -48,6 +49,14 @@ class Home extends Component {
 
         <main>
           <div>GRAPH</div>
+
+          <div className="app pie-container">
+            <div className="row pie-row">
+              <div className="mixed-chart">
+                <Pie />
+              </div>
+            </div>
+          </div>
 
           <div>BMR - AMOUNT OF CALROIES</div>
 

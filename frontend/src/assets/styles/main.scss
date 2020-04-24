@@ -133,3 +133,15 @@ svg.h6 {
   margin: 0;
   padding: 0;
 }
+
+//Pie
+
+.pie-container {
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 20px !important;
+}
+
+.pie-row {
+  margin-left: 60px;
+}
