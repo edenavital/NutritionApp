@@ -5,7 +5,8 @@ export {
   resetStateUser,
   saveDataLogin,
   addFood,
-  increaseFood,
+  removeFood,
+  increaseDecreaseFood,
 } from "./user/userActions";
 
 export {

@@ -3,7 +3,8 @@ import {
   RESET_STATE_APP,
   SAVE_DATA_LOGIN,
   ADD_FOOD,
-  INCREASE_FOOD,
+  REMOVE_FOOD,
+  INCREASE_DECREASE_FOOD,
 } from "./userTypes";
 
 //Including token
@@ -36,9 +37,16 @@ export const addFood = (newFood) => {
   };
 };
 
-export const increaseFood = (newFood) => {
+export const increaseDecreaseFood = (food) => {
   return {
-    type: INCREASE_FOOD,
-    payload: newFood,
+    type: INCREASE_DECREASE_FOOD,
+    payload: food,
+  };
+};
+
+export const removeFood = (food) => {
+  return {
+    type: REMOVE_FOOD,
+    payload: food,
   };
 };

@@ -3,10 +3,17 @@ import "./FoodItem.css";
 import { MdAddCircle } from "react-icons/md";
 import axios from "axios";
 import { connect } from "react-redux";
-import { addFood, increaseFood } from "../../redux";
+import { addFood, increaseDecreaseFood } from "../../redux";
 class FoodItem extends Component {
   onClickFood = () => {
-    const { token, id, name, addFood, increaseFood, calories } = this.props;
+    const {
+      token,
+      id,
+      name,
+      addFood,
+      increaseDecreaseFood,
+      calories,
+    } = this.props;
 
     console.log("onClickFood invoked !");
     console.log("FROM FOODITEM ,SELECT FOOD ID IS: ", id);
@@ -26,7 +33,7 @@ class FoodItem extends Component {
         const addedFood = res.data.addedFood;
 
         if (addedFood.quantity > 1) {
-          increaseFood(addedFood);
+          increaseDecreaseFood(addedFood);
         } else {
           addFood(addedFood);
         }
@@ -63,7 +70,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addFood: (newFood) => dispatch(addFood(newFood)),
-    increaseFood: (newFood) => dispatch(increaseFood(newFood)),
+    increaseDecreaseFood: (newFood) => dispatch(increaseDecreaseFood(newFood)),
   };
 };
 

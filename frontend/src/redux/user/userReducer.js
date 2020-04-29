@@ -3,7 +3,8 @@ import {
   RESET_STATE_APP,
   SAVE_DATA_LOGIN,
   ADD_FOOD,
-  INCREASE_FOOD,
+  REMOVE_FOOD,
+  INCREASE_DECREASE_FOOD,
 } from "./userTypes";
 
 const initialState = {
@@ -36,7 +37,7 @@ const userReducer = (state = initialState, action) => {
         ...state,
         food: [...state.food, action.payload],
       };
-    case INCREASE_FOOD:
+    case INCREASE_DECREASE_FOOD:
       return {
         ...state,
         food: state.food.map((food) =>
@@ -44,7 +45,11 @@ const userReducer = (state = initialState, action) => {
             ? { ...food, quantity: action.payload.quantity }
             : food
         ),
-        // food[action.payload.foodid].quantity: action.payload.quantity,
+      };
+    case REMOVE_FOOD:
+      return {
+        ...state,
+        food: state.food.filter((row) => row.foodid !== action.payload.foodid),
       };
 
     default:

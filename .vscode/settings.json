@@ -1,6 +1,8 @@
 {
     "cSpell.ignoreWords": [
         "description",
+        "foodid",
+        "foodtable",
         "login",
         "routerpaths",
         "signup"

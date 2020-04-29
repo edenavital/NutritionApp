@@ -14,8 +14,7 @@ app.use(cors());
 app.use(morgan("dev"));
 const auth = require("./middleware/auth");
 
-//Config for working with postgres in localhost environment: (comes from default.json file now - environment json)
-
+//Config for working with postgres in localhost environment: (comes from default.json file - environment json)
 let configPg = config.get("devConfig");
 
 if (process.env.NODE_ENV === "production") {
@@ -226,7 +225,7 @@ app.post("/api/increaseFood", auth, (req, res) => {
 
     let updatingExistingFood = new Promise((resolve, reject) => {
       db.query(
-        `SELECT * FROM food WHERE foodid='${foodReq.foodid}'`,
+        `SELECT * FROM food WHERE person_id='${idOfUser}' AND foodid='${foodReq.foodid}'`,
         (err, table) => {
           if (err) return res.status(400).send(err);
 
@@ -234,7 +233,6 @@ app.post("/api/increaseFood", auth, (req, res) => {
           console.log(table.rows.length);
 
           if (table.rows.length > 0) {
-            console.log("ENTERED CONDITION");
             resolve(true);
           } else {
             resolve(false);
@@ -244,9 +242,8 @@ app.post("/api/increaseFood", auth, (req, res) => {
     });
 
     if (await updatingExistingFood) {
-      console.log("UPDATING MODE FFS");
       db.query(
-        `UPDATE food SET quantity=quantity+1 WHERE foodid='${foodReq.foodid}' RETURNING foodid, foodname, calories, quantity;`,
+        `UPDATE food SET quantity=quantity+1 WHERE person_id='${idOfUser}' AND foodid='${foodReq.foodid}' RETURNING foodid, foodname, calories, quantity;`,
         (err, table) => {
           done();
 
@@ -289,87 +286,73 @@ app.post("/api/increaseFood", auth, (req, res) => {
   });
 });
 
-//Decrease Food - remove row or decrease quantity
-// app.post("/api/decreaseFood", auth, (req, res) => {
-//   console.log("inside backend - /api/addFood");
-//   console.log("REQ BODY:", req.body);
+//Decrease Food - remove a row or decrease quantity
+app.post("/api/decreaseFood", auth, (req, res) => {
+  console.log("inside backend - /api/decreaseFood");
 
-//   const idOfUser = req.user.id;
-//   const foodReq = req.body;
-//   const values = [
-//     idOfUser,
-//     foodReq.foodid,
-//     foodReq.foodname,
-//     foodReq.calories,
-//     1,
-//   ];
+  const idOfUser = req.user.id;
+  const foodReq = req.body;
 
-//   pool.connect(async (err, db, done) => {
-//     if (err) return res.status(400).send(err);
+  pool.connect(async (err, db, done) => {
+    if (err) return res.status(400).send(err);
 
-//     let updatingExistingFood = new Promise((resolve, reject) => {
-//       db.query(
-//         `SELECT * FROM food WHERE foodid='${foodReq.foodid}'`,
-//         (err, table) => {
-//           if (err) return res.status(400).send(err);
+    let decreaseFood = new Promise((resolve, reject) => {
+      db.query(
+        `SELECT * FROM food WHERE person_id='${idOfUser}' AND foodid='${foodReq.foodid}'`,
+        (err, table) => {
+          if (err) return res.status(400).send(err);
 
-//           console.log("SELECT ALL FROM FOOD WHERE... ", table.rows);
-//           console.log(table.rows.length);
+          console.log("table.rows", table.rows);
 
-//           if (table.rows.length > 0) {
-//             console.log("ENTERED CONDITION");
-//             resolve(true);
-//           } else {
-//             resolve(false);
-//           }
-//         }
-//       );
-//     });
+          if (table.rows[0] && table.rows[0].quantity > 1) {
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        }
+      );
+    });
 
-//     if (await updatingExistingFood) {
-//       db.query(
-//         `UPDATE food SET quantity=quantity+1 WHERE foodid='${foodReq.foodid}' RETURNING foodid, foodname, calories, quantity;`,
-//         (err, table) => {
-//           done();
+    if (await decreaseFood) {
+      console.log("BACKEND - DECREASEFOOD");
+      db.query(
+        `UPDATE food SET quantity=quantity-1 WHERE person_id=${idOfUser} AND foodid='${foodReq.foodid}' RETURNING foodid, foodname, calories, quantity;`,
+        (err, table) => {
+          done();
 
-//           console.log(
-//             "FROM SERVER, AFTER INSERT FOOD WHAT I GET: ",
-//             table.rows[0]
-//           );
+          console.log(
+            "FROM SERVER, AFTER DECREASE FOOD WHAT I GET: ",
+            table.rows[0]
+          );
 
-//           if (err) return res.status(400).send(err);
+          if (err) return res.status(400).send(err);
 
-//           console.log("A new food has been added successfully!");
-//           return res.status(201).send({
-//             addedFood: table.rows[0],
-//             msg: "Food has been successfully added",
-//           });
-//         }
-//       );
-//     } else {
-//       db.query(
-//         "insert into food (person_id, foodid, foodname, calories, quantity) VALUES ($1, $2, $3, 4$, $5) RETURNING foodid, foodname, calories, quantity;",
-//         [...values],
-//         (err, table) => {
-//           done();
+          console.log("Food has been decreased successfully!");
+          return res.status(201).send({
+            selectedFood: table.rows[0],
+            msg: "Food has been decreased successfully",
+          });
+        }
+      );
+    } else {
+      console.log("BACKEND - REMOVEFOOD");
+      db.query(
+        `DELETE FROM food WHERE person_id='${idOfUser}' AND foodid='${foodReq.foodid}' RETURNING foodid;`,
+        (err, table) => {
+          done();
 
-//           console.log(
-//             "FROM SERVER, AFTER INSERT FOOD WHAT I GET: ",
-//             table.rows[0]
-//           );
+          if (err) return res.status(400).send(err);
 
-//           if (err) return res.status(400).send(err);
-
-//           console.log("A new food has been added successfully!");
-//           return res.status(201).send({
-//             addedFood: table.rows[0],
-//             msg: "Food has been successfully added",
-//           });
-//         }
-//       );
-//     }
-//   });
-// });
+          console.log("Food has been removed successfully!");
+          return res.status(201).send({
+            foodRemoved: true,
+            msg: "Food has been removed",
+          });
+        }
+      );
+    }
+  });
+});
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/build")));

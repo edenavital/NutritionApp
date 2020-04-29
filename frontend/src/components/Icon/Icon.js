@@ -7,13 +7,13 @@ props.iconName = The name of the icon, will be used inside the dynamicStyle in o
 if you want to change the size of the icon, don't forget to change inline SVG width & height and also in className
 */
 
-const Icon = props => {
+const Icon = (props) => {
   const dynamicStyle = {
     ...props,
     MaskImage:
       `url(` + require(`../../assets/icons/${props.iconName}.svg`) + `)`,
     WebkitMaskImage:
-      `url(` + require(`../../assets/icons/${props.iconName}.svg`) + `)`
+      `url(` + require(`../../assets/icons/${props.iconName}.svg`) + `)`,
   };
 
   return (

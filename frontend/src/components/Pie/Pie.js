@@ -29,6 +29,42 @@ class Pie extends Component {
           },
         },
 
+        legend: {
+          show: true,
+          showForSingleSeries: true,
+          showForNullSeries: true,
+          showForZeroSeries: true,
+          position: "right",
+          horizontalAlign: "center",
+          floating: false,
+          fontSize: "14px",
+          fontFamily: "Poppins, Arial",
+          fontWeight: 400,
+          tooltipHoverFormatter: undefined,
+          offsetX: 0,
+          offsetY: 0,
+          markers: {
+            width: 11,
+            height: 11,
+            strokeWidth: 0,
+            strokeColor: "#fff",
+            radius: 12,
+            onClick: undefined,
+            offsetX: 0,
+            offsetY: 0,
+          },
+          itemMargin: {
+            horizontal: 5,
+            vertical: 0,
+          },
+          onItemClick: {
+            toggleDataSeries: true,
+          },
+          onItemHover: {
+            highlightDataSeries: true,
+          },
+        },
+
         dataLabels: {
           enabled: true,
           enabledOnSeries: undefined,
@@ -38,9 +74,7 @@ class Pie extends Component {
           offsetY: 0,
           style: {
             fontSize: "14px",
-            fontFamily: "Helvetica, Arial, sans-serif",
             fontWeight: "bold",
-            colors: undefined,
           },
           background: {
             enabled: false,
@@ -78,16 +112,16 @@ class Pie extends Component {
                 name: {
                   show: true,
                   fontSize: "22px",
-                  fontFamily: "Helvetica, Arial, sans-serif",
                   fontWeight: 600,
+                  fontFamily: "Poppins, Arial",
                   color: undefined,
                   offsetY: -10,
                 },
                 value: {
                   show: true,
                   fontSize: "16px",
-                  fontFamily: "Helvetica, Arial, sans-serif",
                   fontWeight: 400,
+                  fontFamily: "Poppins, Arial",
                   color: undefined,
                   offsetY: 16,
                 },
@@ -95,8 +129,8 @@ class Pie extends Component {
                   show: true,
                   showAlways: false,
                   label: "Total",
+                  fontFamily: "Poppins, Arial",
                   fontSize: "22px",
-                  fontFamily: "Helvetica, Arial, sans-serif",
                   fontWeight: 600,
                   color: "#373d3f",
                 },
@@ -121,15 +155,12 @@ class Pie extends Component {
   updateData = () => {
     const { food } = this.props;
     //   let { series, options } = this.state;
-    let series = [...this.state.series];
-    let options = { ...this.state.options };
+    let series = [];
+    let options = { labels: [] };
 
     food.forEach((food, index) => {
       options.labels.push(`${food.foodname} - ${food.quantity}`);
       series.push(food.calories * food.quantity);
-
-      console.log(options.labels[index]);
-      console.log(series[index]);
     });
 
     this.setState({ series, options });

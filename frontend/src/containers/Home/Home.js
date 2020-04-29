@@ -6,6 +6,10 @@ import { toggleSideDrawer } from "../../redux";
 import SideDrawer from "../../components/SideDrawer/SideDrawer";
 import { resetStateApp, resetStateUser } from "../../redux";
 import Pie from "../../components/Pie/Pie";
+import Foodtable from "../../components/Foodtable/Foodtable";
+import CloseIcon from "@material-ui/icons/Close";
+import IconButton from "@material-ui/core/IconButton";
+
 class Home extends Component {
   logout = () => {
     localStorage.removeItem("JWT");
@@ -15,52 +19,46 @@ class Home extends Component {
   };
 
   render() {
-    //const { username } = this.props.credentials;
+    const { name, food, toggleSideDrawer, token } = this.props;
+
     return (
       <div className="Home">
-        <SideDrawer />
+        <div className="d-flex justify-content-between align-items-center mx-5 m-2">
+          <SideDrawer />
 
-        <Icon
-          iconName="menu"
-          width="40px"
-          height="40px"
-          position="absolute"
-          left="8%"
-          top="3%"
-          cursor="pointer"
-          onClick={this.props.toggleSideDrawer}
-        />
-        <Icon iconName="smile" width="100px" height="100px" />
+          <Icon
+            iconName="menu"
+            width="40px"
+            height="40px"
+            cursor="pointer"
+            onClick={toggleSideDrawer}
+          />
+          <Icon iconName="smile" width="100px" height="100px" />
 
-        <div
-          onClick={this.logout}
-          style={{
-            color: "red",
-            cursor: "pointer",
-            position: "absolute",
-            top: "10%",
-            right: "10%",
-          }}
-        >
-          X
+          <IconButton
+            style={{
+              outline: "none",
+              color: "red",
+              cursor: "pointer",
+            }}
+            onClick={this.logout}
+          >
+            <CloseIcon />
+          </IconButton>
         </div>
 
-        <h4>Welcome USER</h4>
+        <h4>Welcome {name && name}</h4>
 
         <main>
-          <div>GRAPH</div>
-
           <div className="app pie-container">
             <div className="row pie-row">
-              <div className="mixed-chart">
-                <Pie />
-              </div>
+              <div className="mixed-chart">{food.length > 0 && <Pie />}</div>
             </div>
           </div>
 
-          <div>BMR - AMOUNT OF CALROIES</div>
+          <div>Your total BMR calculation is X Calories</div>
 
-          <div>FOOD and amount of calories for each...</div>
+          <Foodtable food={food} token={token} />
         </main>
       </div>
     );
@@ -69,9 +67,9 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    credentials: state.user.credentials,
     food: state.user.food,
-    user: state.user,
+    name: state.user.credentials[0].name,
+    token: state.user.token,
   };
 };
 
