@@ -17,7 +17,7 @@ class Register extends Component {
       username: "",
       name: "",
       password: "",
-      gender: "",
+      gender: "male",
       age: "",
       height: "",
       weight: "",
