@@ -130,7 +130,7 @@ class Login extends Component {
                     </div>
 
                     <form onSubmit={this.onSubmitForm}>
-                      <div className="float-input-box pt-1">
+                      <div className="float-input-box">
                         <input
                           className={
                             this.state.person.username.length !== 0
