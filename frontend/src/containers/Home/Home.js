@@ -9,6 +9,7 @@ import Pie from "../../components/Pie/Pie";
 import Foodtable from "../../components/Foodtable/Foodtable";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
+import { Breakpoint } from "react-socks";
 
 class Home extends Component {
   logout = () => {
@@ -52,7 +53,21 @@ class Home extends Component {
         <main>
           <div className="app pie-container">
             <div className="row pie-row">
-              <div className="mixed-chart">{food.length > 0 && <Pie />}</div>
+              <div className="mixed-chart">
+                <Breakpoint medium up>
+                  {food && food.length > 0 && (
+                    <Pie responsiveOptions={{ width: 450 }} />
+                  )}
+                </Breakpoint>
+
+                <Breakpoint small down>
+                  {food && food.length > 0 && (
+                    <Pie
+                      responsiveOptions={{ width: 350, totalLabelSize: 10 }}
+                    />
+                  )}
+                </Breakpoint>
+              </div>
             </div>
           </div>
 
@@ -68,7 +83,8 @@ class Home extends Component {
 const mapStateToProps = (state) => {
   return {
     food: state.user.food,
-    name: state.user.credentials[0].name,
+    name:
+      state.user && state.user.credentials[0] && state.user.credentials[0].name,
     token: state.user.token,
   };
 };

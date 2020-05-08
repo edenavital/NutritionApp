@@ -11,7 +11,10 @@ import {
   showNotification,
 } from "../../redux";
 import { connect } from "react-redux";
-import { NOTIFICATION_TYPES } from "../../constants/constants";
+import {
+  NOTIFICATION_TYPES,
+  NOTIFICATION_MESSAGES,
+} from "../../constants/constants";
 
 class Login extends Component {
   state = {
@@ -42,9 +45,12 @@ class Login extends Component {
         localStorage.setItem("JWT", res.data.userData.token);
         this.props.history.push("/home");
       })
-      .catch(() => {
+      .catch((res) => {
         console.log("Credentials not match ...");
-        showNotification(NOTIFICATION_TYPES.ERROR, "ERROR");
+        showNotification(
+          NOTIFICATION_TYPES.ERROR,
+          NOTIFICATION_MESSAGES.BAD_LOGIN
+        );
       });
   };
 
