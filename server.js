@@ -139,7 +139,7 @@ const getDataOfLoggedUser = (newUser, res, token) => {
     if (err) return res.status(400).send(err);
 
     db.query(
-      `SELECT foodid, foodname, quantity FROM food INNER JOIN person ON (food.person_id = person.id) WHERE person.id='${newUser.id}'`,
+      `SELECT foodid, foodname, calories, quantity FROM food INNER JOIN person ON (food.person_id = person.id) WHERE person.id='${newUser.id}'`,
       (err, table) => {
         done();
 

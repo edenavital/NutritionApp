@@ -153,10 +153,16 @@ class Pie extends Component {
   }
 
   updateData = () => {
-    const { food } = this.props;
+    const { food, responsiveOptions } = this.props;
     //   let { series, options } = this.state;
     let series = [];
     let options = { labels: [] };
+
+    //settings the options for mobile
+    // if (responsiveOptions && responsiveOptions.totalLabelSize) {
+    //   options.plotOptions.pie.donut.total.fontSize =
+    //     responsiveOptions.totalLabelSize;
+    // }
 
     food.forEach((food, index) => {
       options.labels.push(`${food.foodname} - ${food.quantity}`);
@@ -167,13 +173,14 @@ class Pie extends Component {
   };
 
   render() {
+    const { width } = this.props.responsiveOptions;
     return (
       <div className="donut">
         <Chart
           options={this.state.options}
           series={this.state.series}
           type="donut"
-          width="450"
+          width={width}
         />
       </div>
     );

@@ -9,9 +9,13 @@ export const ROUTERPATHS = {
 };
 
 export const NOTIFICATION_TYPES = {
-  CHANGE: 'change',
-  INFO: 'info',
-  SUCCESS: 'success',
-  WARNING: 'warning',
-  ERROR: 'error'
+  CHANGE: "change",
+  INFO: "info",
+  SUCCESS: "success",
+  WARNING: "warning",
+  ERROR: "error",
+};
+
+export const NOTIFICATION_MESSAGES = {
+  BAD_LOGIN: "There was a problem with your credentials, please try again",
 };
