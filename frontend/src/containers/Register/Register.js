@@ -17,7 +17,7 @@ class Register extends Component {
       username: "",
       name: "",
       password: "",
-      gender: "",
+      gender: "male",
       age: "",
       height: "",
       weight: "",
@@ -72,7 +72,7 @@ class Register extends Component {
         username: "",
         name: "",
         password: "",
-        gender: "",
+        gender: "male",
         age: "",
         height: "",
         weight: "",
@@ -158,24 +158,22 @@ class Register extends Component {
                           " position-absolute transition-base top-0 left-0 fh-1 hw-2 bg-white y-center rounded"
                         }
                       />
-                      <button
+                      <input
+                        type="button"
                         onClick={this.handleInputChange}
                         id="gender"
-                        type="button"
                         value="male"
                         className="btn btn-focus-none col-6 px-0 z-1"
-                      >
-                        Male
-                      </button>
-                      <button
+                        required
+                      />
+                      <input
+                        type="button"
                         onClick={this.handleInputChange}
                         id="gender"
-                        type="button"
                         value="female"
                         className="btn btn-focus-none col-6 px-0 z-1"
-                      >
-                        Female
-                      </button>
+                        required
+                      />
                     </div>
                   </div>
                   {/* <div className="col-md-6">
