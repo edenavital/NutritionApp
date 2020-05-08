@@ -13,6 +13,11 @@ body {
   background: $green;
 }
 
+//transitions
+.transition-base {
+  transition: $transition-base;
+}
+
 //notification
 .notification-container {
   width: inherit !important;
@@ -26,21 +31,86 @@ body {
   box-shadow: $box-shadow;
 }
 
+//colors
+
+.bg-light-2 {
+  background-color: $gray-200;
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+//absolute and fixed alignment
+
+.top-0 {
+  top: 0;
+}
+
+.left-0 {
+  left: 0;
+}
+
+.y-center {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.z-1 {
+  z-index: 1;
+}
+
+//width of the radio alternative box (female - male in register page)
+//fw = full-width _ hw = half-width
+
+.fw-1 {
+  width: calc(100% - 1rem);
+}
+
+.fh-1 {
+  height: calc(100% - 1rem);
+}
+
+.hw-2 {
+  width: calc(50% - 0.5rem);
+  margin-left: 0.5rem;
+}
+
+.segment-second-active {
+  transform: translate(100%, -50%);
+}
+
+//buttons
+.btn-focus-none:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
 //inputs and labels
 
 .float-input-box {
   position: relative;
   display: flex;
-  align-items: center;
-  margin-bottom: $spacer;
+  flex-wrap: wrap;
+  //align-items: center;
+  margin-bottom: $grid-gutter-width / 2;
+  small {
+    color: $text-muted;
+    font-weight: 300;
+    margin-top: 0.25rem;
+  }
   label {
     transition: $transition-spring;
+    transform-origin: top left;
+    color: $text-muted;
     background-color: white;
+    //testing hard coding centering
+    top: 9px;
     position: absolute;
-    left: $grid-gutter-width / 4;
+    left: $grid-gutter-width / 2 - 4px;
     padding: 0 $grid-gutter-width / 4;
-    transform-origin: bottom left;
     margin: 0;
+    pointer-events: none;
   }
   input {
     border: $border-width $gray-300 solid;
@@ -54,7 +124,8 @@ body {
       outline: none;
       border-color: $success;
       + label {
-        transform: scale(0.75) translateY(-33px);
+        transform: scale(0.75) translateY(-24px);
+        transform-origin: top left;
       }
     }
     &:hover {
@@ -74,7 +145,8 @@ body {
 
 .input-filled {
   + label {
-    transform: scale(0.75) translateY(-33px);
+    transform: scale(0.75) translateY(-24px);
+    transform-origin: top left;
   }
 }
 
