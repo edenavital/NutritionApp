@@ -7,6 +7,7 @@ export {
   addFood,
   removeFood,
   increaseDecreaseFood,
+  setImage,
 } from "./user/userActions";
 
 export {

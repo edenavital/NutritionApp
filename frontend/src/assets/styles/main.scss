@@ -206,6 +206,11 @@ svg.h6 {
   padding: 0;
 }
 
+.icons {
+  height: 50px;
+  width: 30px;
+}
+
 //Pie
 
 .pie-container {
@@ -237,4 +242,41 @@ svg.h6 {
   box-sizing: content-box !important;
   border: 1px solid #008000d4;
   box-sizing: border-box;
+}
+
+//Profile
+
+.profile-top-div {
+  height: 30%;
+  background: rgb(34, 193, 195);
+  background: linear-gradient(
+    0deg,
+    rgba(34, 193, 195, 1) 0%,
+    rgba(58, 205, 63, 1) 100%
+  );
+  align-items: "center";
+}
+
+.profile-bar {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    margin: 0;
+    padding: 0;
+  }
+  svg {
+    position: absolute;
+    left: 0px;
+  }
+}
+
+.profile-bottom-div {
+  height: 70%;
+  width: 100%;
+  background: "#fff";
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
 }

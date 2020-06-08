@@ -1,9 +1,6 @@
 .Food {
   width: 99vw;
   height: 99vh;
-
-  border: 1px solid black;
-  border-radius: 50px;
 }
 
 .Food h3 {

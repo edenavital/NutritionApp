@@ -10,13 +10,14 @@ import Foodtable from "../../components/Foodtable/Foodtable";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import { Breakpoint } from "react-socks";
-
+import { optionsDefault, optionsMobile } from "../../components/Pie/pieOptions";
 class Home extends Component {
   logout = () => {
+    const { resetStateUser, resetStateApp, history } = this.props;
     localStorage.removeItem("JWT");
-    this.props.resetStateUser();
-    this.props.resetStateApp();
-    this.props.history.push("/login");
+    resetStateUser();
+    resetStateApp();
+    history.push("/login");
   };
 
   render() {
@@ -55,17 +56,11 @@ class Home extends Component {
             <div className="row pie-row">
               <div className="mixed-chart">
                 <Breakpoint medium up>
-                  {food && food.length > 0 && (
-                    <Pie responsiveOptions={{ width: 450 }} />
-                  )}
+                  {food && food.length > 0 && <Pie options={optionsDefault} />}
                 </Breakpoint>
 
                 <Breakpoint small down>
-                  {food && food.length > 0 && (
-                    <Pie
-                      responsiveOptions={{ width: 350, totalLabelSize: 10 }}
-                    />
-                  )}
+                  {food && food.length > 0 && <Pie options={optionsMobile} />}
                 </Breakpoint>
               </div>
             </div>

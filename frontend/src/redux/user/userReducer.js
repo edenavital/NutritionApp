@@ -5,6 +5,7 @@ import {
   ADD_FOOD,
   REMOVE_FOOD,
   INCREASE_DECREASE_FOOD,
+  UPDATE_USER_CREDENTIALS,
 } from "./userTypes";
 
 const initialState = {
@@ -50,6 +51,11 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         food: state.food.filter((row) => row.foodid !== action.payload.foodid),
+      };
+    case UPDATE_USER_CREDENTIALS:
+      return {
+        ...state,
+        credentials: action.payload,
       };
 
     default:

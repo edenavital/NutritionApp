@@ -6,7 +6,7 @@ import { CSSTransition } from "react-transition-group";
 import { toggleSideDrawer } from "../../redux";
 import { Link } from "react-router-dom";
 
-const SideDrawer = props => {
+const SideDrawer = (props) => {
   const menu = (
     <div className="SideDrawer">
       <h3>Menu</h3>
@@ -20,6 +20,11 @@ const SideDrawer = props => {
         <Link to="/food" onClick={props.toggleSideDrawer}>
           Add Food
         </Link>
+        <li>
+          <Link to="/profile" onClick={props.toggleSideDrawer}>
+            Profile
+          </Link>
+        </li>
         <li>
           <Link to="/login" onClick={props.toggleSideDrawer}>
             Logout
@@ -54,14 +59,14 @@ const SideDrawer = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    isDrawerVisible: state.app.isDrawerVisible
+    isDrawerVisible: state.app.isDrawerVisible,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    toggleSideDrawer: () => dispatch(toggleSideDrawer())
+    toggleSideDrawer: () => dispatch(toggleSideDrawer()),
   };
 };
 
