@@ -11,13 +11,15 @@ import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import { Breakpoint } from "react-socks";
 import { optionsDefault, optionsMobile } from "../../components/Pie/pieOptions";
+import { ROUTERPATHS } from "../../constants/constants";
+
 class Home extends Component {
   logout = () => {
     const { resetStateUser, resetStateApp, history } = this.props;
     localStorage.removeItem("JWT");
     resetStateUser();
     resetStateApp();
-    history.push("/login");
+    history.push(ROUTERPATHS.LOGIN);
   };
 
   render() {
@@ -78,8 +80,7 @@ class Home extends Component {
 const mapStateToProps = (state) => {
   return {
     food: state.user.food,
-    name:
-      state.user && state.user.credentials[0] && state.user.credentials[0].name,
+    name: state.user.credentials && state.user.credentials.name,
     token: state.user.token,
   };
 };

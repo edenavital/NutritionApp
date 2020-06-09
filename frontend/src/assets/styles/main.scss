@@ -256,7 +256,9 @@ svg.h6 {
   );
   align-items: "center";
 }
-
+.bulbul {
+  padding: 5 !important;
+}
 .profile-bar {
   height: 50px;
   display: flex;
@@ -265,10 +267,6 @@ svg.h6 {
   p {
     margin: 0;
     padding: 0;
-  }
-  svg {
-    position: absolute;
-    left: 0px;
   }
 }
 

@@ -182,7 +182,7 @@ app.get("/api/getUserData", auth, (req, res) => {
 
     db.query(`SELECT * FROM person WHERE id='${idOfUser}'`, (err, table) => {
       if (err) return res.status(400).send(err);
-      credentials = table.rows;
+      credentials = table.rows[0];
     });
 
     db.query(
@@ -351,6 +351,32 @@ app.post("/api/decreaseFood", auth, (req, res) => {
         }
       );
     }
+  });
+});
+
+app.post("/api/updateAvatar", auth, (req, res) => {
+  console.log("inside backend - /api/updateAvatar");
+  console.log("REQ BODY:", req.body);
+
+  const idOfUser = req.user.id;
+  const avatarUrl = req.body.avatarUrl;
+
+  pool.connect((err, db, done) => {
+    if (err) return res.status(400).send(err);
+
+    db.query(
+      `UPDATE person SET avatar='${avatarUrl}' WHERE id='${idOfUser}'`,
+      (err, table) => {
+        done();
+
+        if (err) return res.status(400).send(err);
+
+        console.log("Avatar has been updated successfully!");
+        return res.status(201).send({
+          msg: "Food has been successfully added",
+        });
+      }
+    );
   });
 });
 

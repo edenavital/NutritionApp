@@ -68,10 +68,7 @@ class ProfileAvatar extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    avatar:
-      state.user.credentials &&
-      state.user.credentials[0] &&
-      state.user.credentials[0].avatar,
+    avatar: state.user.credentials && state.user.credentials.avatar,
   };
 };
 

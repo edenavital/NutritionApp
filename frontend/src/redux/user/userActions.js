@@ -79,8 +79,14 @@ export const setImage = (files) => {
       data
     );
 
-    let currentUserState = store.getState().user.credentials;
-    currentUserState[0].avatar = file.data.secure_url;
+    let currentUserState = store.getState().user;
+    const avatarUrl = { avatarUrl: file.data.secure_url };
+
+    await axios.post("/api/updateAvatar", avatarUrl, {
+      headers: { Authorization: currentUserState.token },
+    });
+
+    currentUserState.credentials.avatar = file.data.secure_url;
 
     dispatch(updateUserCredentials(currentUserState));
     dispatch(fetchRequestLoader());
