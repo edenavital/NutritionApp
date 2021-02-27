@@ -111,7 +111,6 @@ class Food extends Component {
     return (
       <div className="Food">
         {/* {this.props.loading ? <Loader /> : null} */}
-        <SideDrawer />
         <Icon iconName="food" width="100px" height="100px" />
 
         <main>

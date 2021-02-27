@@ -1,32 +1,31 @@
 import {
-  SAVE_DATA_FROM_DATABASE,
   RESET_STATE_APP,
   SAVE_DATA_LOGIN,
   ADD_FOOD,
   REMOVE_FOOD,
   INCREASE_DECREASE_FOOD,
   UPDATE_USER_CREDENTIALS,
+  CALCULATE_BMR,
+  CALCULATE_DAILY_CALORIES
 } from "./userTypes";
 
 const initialState = {
+  connected: null,
   credentials: null,
   food: null,
   token: localStorage.getItem("JWT"),
+  bmr: 0,
+  currentCalories: 0
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case SAVE_DATA_LOGIN:
       return {
+        connected: true,
         credentials: action.payload.credentials,
         food: action.payload.food,
         token: action.payload.token,
-      };
-    case SAVE_DATA_FROM_DATABASE:
-      return {
-        ...state,
-        credentials: action.payload.credentials,
-        food: action.payload.food,
       };
     case RESET_STATE_APP:
       return {
@@ -57,6 +56,17 @@ const userReducer = (state = initialState, action) => {
         ...state,
         credentials: action.payload.credentials,
       };
+        
+    case CALCULATE_BMR:
+      return {
+        ...state,
+        bmr: action.payload
+      }
+    case CALCULATE_DAILY_CALORIES:
+      return {
+        ...state,
+        currentCalories: action.payload
+      }
 
     default:
       return state;

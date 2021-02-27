@@ -1,7 +1,8 @@
 import {
   TOGGLE_SIDE_DRAWER,
   RESET_STATE_APP,
-  FETCH_REQUEST_LOADER
+  FETCH_REQUEST_LOADER,
+  CALCULATE_BMR
 } from "./appTypes";
 //import axios from "axios";
 

@@ -33,9 +33,13 @@ class ProfileAvatar extends Component {
           alt="USER'S FIRST NAME"
           src={avatar}
           style={{
-            height: 100,
-            width: 100,
+            height: 120,
+            width: 120,
             position: "relative",
+            cursor: "pointer",
+            border: "1px solid lightgrey",
+            boxShadow: "0px 3px 6px #00000029"
+
           }}
           onClick={() => this.fileInput.current.click()}
         />

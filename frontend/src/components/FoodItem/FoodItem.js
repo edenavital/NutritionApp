@@ -3,18 +3,10 @@ import "./FoodItem.css";
 import { MdAddCircle } from "react-icons/md";
 import axios from "axios";
 import { connect } from "react-redux";
-import { addFood, increaseDecreaseFood } from "../../redux";
-class FoodItem extends Component {
-  onClickFood = () => {
-    const {
-      token,
-      id,
-      name,
-      addFood,
-      increaseDecreaseFood,
-      calories,
-    } = this.props;
-
+import { addFood, increaseDecreaseFood, calculateDailyCalories } from "../../redux";
+const FoodItem = ({ token, id, name, addFood, increaseDecreaseFood, calories, ...props }) => {
+  
+  const onClickFood = async () => {
     console.log("onClickFood invoked !");
     console.log("FROM FOODITEM ,SELECT FOOD ID IS: ", id);
 
@@ -23,42 +15,38 @@ class FoodItem extends Component {
       foodname: name,
       calories: calories.toFixed(0),
     };
+    
+    try {
+      const res = await axios.post("/api/increaseFood", newFood, { headers: { Authorization: token } })
+      console.log("BACK TO FRONTEND, res.data: ", res.data);
+      const addedFood = res.data.addedFood;
+      if (addedFood.quantity > 1) {
+        increaseDecreaseFood(addedFood);
+      } else {
+        addFood(addedFood);
+      }
+      calculateDailyCalories()
+    } catch (err) {
+      console.log(err)
+    }
+  }    
 
-    axios
-      .post("/api/increaseFood", newFood, {
-        headers: { Authorization: token },
-      })
-      .then((res) => {
-        console.log("BACK TO FRONTEND, res.data: ", res.data);
-        const addedFood = res.data.addedFood;
-
-        if (addedFood.quantity > 1) {
-          increaseDecreaseFood(addedFood);
-        } else {
-          addFood(addedFood);
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-
-  render() {
     return (
       <div className="FoodItem">
         <div className="food">
           <img
-            src={this.props.img.thumb}
+            src={props.img.thumb}
             width="50px"
             height="50px"
             alt="food"
           />
-          <h4>{this.props.name}</h4>
-          <p>{this.props.calories.toFixed(0)}</p>
+          <h4>{props.name}</h4>
+          <p>{calories.toFixed(0)}</p>
         </div>
 
-        <MdAddCircle className="h2" onClick={this.onClickFood} />
+        <MdAddCircle className="h2" onClick={onClickFood} />
       </div>
     );
-  }
 }
 
 const mapStateToProps = (state) => {

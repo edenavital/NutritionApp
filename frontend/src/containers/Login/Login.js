@@ -5,10 +5,10 @@ import { Breakpoint } from "react-socks";
 import { motion } from "framer-motion";
 import axios from "axios";
 import {
-  saveDataLogin,
   resetStateApp,
   resetStateUser,
   showNotification,
+  calculateBmr
 } from "../../redux";
 import { connect } from "react-redux";
 import {
@@ -39,10 +39,12 @@ class Login extends Component {
     axios
       .post("/api/login", person)
       .then((res) => {
+        const { data: { userData } } = res;
         //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
         showNotification(NOTIFICATION_TYPES.SUCCESS, "SUCCESS LOGIN");
-        this.props.saveDataLogin(res.data.userData);
-        localStorage.setItem("JWT", res.data.userData.token);
+        this.props.saveDataLogin(userData);
+        this.props.calculateBmr(userData.credentials);
+        localStorage.setItem("JWT", userData.token);
         this.props.history.push("/home");
       })
       .catch((res) => {
@@ -198,9 +200,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveDataLogin: (userData) => dispatch(saveDataLogin(userData)),
     resetStateApp: () => dispatch(resetStateApp()),
     resetStateUser: () => dispatch(resetStateUser()),
+    calculateBmr: (credentials) => dispatch(calculateBmr(credentials))
   };
 };
 

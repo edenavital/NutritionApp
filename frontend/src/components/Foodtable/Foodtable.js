@@ -49,6 +49,7 @@ class Foodtable extends Component {
         const selectedFood = res.data.selectedFood;
         const foodRemoved = res.data.foodRemoved;
 
+        
         if (foodRemoved !== true) {
           increaseDecreaseFood(selectedFood);
         } else {

@@ -6,7 +6,7 @@ import { NotificationManager } from "react-notifications";
 
 
 //In order to use: call showNotifications and pass (type, message)
-export const createNotification = (type, message) => {
+const createNotification = (type, message) => {
 
     switch (type) {
       case "info":

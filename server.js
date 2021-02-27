@@ -14,8 +14,8 @@ app.use(cors());
 app.use(morgan("dev"));
 const auth = require("./middleware/auth");
 
-//Config for working with postgres in localhost environment: (comes from default.json file - environment json)
-let configPg = config.get("devConfig");
+//Config for working with ppostgres in localhost environment: (comes from default.json file - environment json)
+let configPg = config.get("dbConfig");
 
 if (process.env.NODE_ENV === "production") {
   configPg = {
@@ -97,8 +97,10 @@ app.post("/api/login", (req, res) => {
 
   //Connect to the DB - Parameter is a function that gets err - error, db - new client inside the pool, done - release function
   pool.connect((err, db, done) => {
-    if (err) return res.status(400).send(err);
-
+    if (err) {
+      console.log("err", err);
+      return res.status(400).send(err);
+    }
     db.query(
       `SELECT * FROM person WHERE username='${username}'`,
       (err, table) => {

@@ -227,6 +227,15 @@ svg.h6 {
   text-align: left !important;
 }
 
+//Wrapper
+.wrapper {
+  width: 99vw;
+  height: 99vh;
+  background: #fff;
+  border: 1px solid black;
+  border-radius: 50px;
+}
+
 //Home
 .home-header {
   margin: "10px 20px";
@@ -244,11 +253,10 @@ svg.h6 {
   box-sizing: border-box;
 }
 
-//Profile
-
-.profile-top-div {
-  height: 30%;
-  background: rgb(34, 193, 195);
+.home-top-wrapper {
+  height: 150px;
+  position: relative;
+  background: rgb(39, 195, 34);
   background: linear-gradient(
     0deg,
     rgba(34, 193, 195, 1) 0%,
@@ -256,22 +264,24 @@ svg.h6 {
   );
   align-items: "center";
 }
-.bulbul {
-  padding: 5 !important;
-}
-.profile-bar {
-  height: 50px;
+
+.home-top {
   display: flex;
   justify-content: center;
   align-items: center;
-  p {
-    margin: 0;
-    padding: 0;
-  }
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translate((-50%, -50%));
+  border: 1px solid lightgray;
+  border-radius: 50%;
 }
 
-.profile-bottom-div {
-  height: 70%;
+//Foodlist
+
+.home-bottom-wrapper {
+  padding-top: 70px;
+  height: 100%;
   width: 100%;
   background: "#fff";
   display: flex;

@@ -1,7 +1,12 @@
 export const SAVE_DATA_LOGIN = "SAVE_DATA_LOGIN";
-export const SAVE_DATA_FROM_DATABASE = "SAVE_DATA_FROM_DATABASE";
 export const RESET_STATE_APP = "RESET_STATE_APP";
 export const ADD_FOOD = "ADD_FOOD";
 export const INCREASE_DECREASE_FOOD = "INCREASE_DECREASE_FOOD";
 export const REMOVE_FOOD = "REMOVE_FOOD";
 export const UPDATE_USER_CREDENTIALS = "UPDATE_USER_CREDENTIALS";
+
+//Calculate BMR
+export const CALCULATE_BMR = "CALCULATE_BMR";
+
+// Calculate daily consumed calories
+export const CALCULATE_DAILY_CALORIES = "CALCULATE_DAILY_CALORIES";

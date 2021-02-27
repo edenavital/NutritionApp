@@ -1,73 +1,82 @@
 import React from "react";
 import { connect } from "react-redux";
 import "./SideDrawer.css";
-import Backdrop from "../Backdrop/Backdrop";
-import { CSSTransition } from "react-transition-group";
-import { toggleSideDrawer } from "../../redux";
 import { Link } from "react-router-dom";
+import { Button, Drawer } from "@material-ui/core"
 
-const SideDrawer = (props) => {
-  const menu = (
-    <div className="SideDrawer">
-      <h3>Menu</h3>
+import List from '@material-ui/core/List';
 
-      <ul>
-        <li>
-          <Link to="/home" onClick={props.toggleSideDrawer}>
-            Home
-          </Link>
-        </li>
-        <Link to="/food" onClick={props.toggleSideDrawer}>
-          Add Food
-        </Link>
-        <li>
-          <Link to="/profile" onClick={props.toggleSideDrawer}>
-            Profile
-          </Link>
-        </li>
-        <li>
-          <Link to="/login" onClick={props.toggleSideDrawer}>
-            Logout
-          </Link>
-        </li>
-      </ul>
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+
+import FastfoodIcon from '@material-ui/icons/Fastfood';
+import HomeIcon from '@material-ui/icons/Home';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { SIDE_DRAWER_OPTIONS, ROUTERPATHS } from '../../constants/constants'
+import { withRouter } from 'react-router'
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+
+const SideDrawer = ({ isDrawerVisible, toggleSideDrawer, history, logout, setDisplayedPage }) => {
+
+  const getIcon = (to) => {
+    switch (to) {
+      case ROUTERPATHS.HOME:
+        return <HomeIcon />
+      case ROUTERPATHS.FOOD:
+        return <AddCircleIcon />
+      case ROUTERPATHS.FOOD_LIST:
+        return <FastfoodIcon />
+      case ROUTERPATHS.LOGIN:
+        return <ExitToAppIcon />
+      default:
+        return null
+    }
+  }
+
+  const onClickItem = (opt) => {
+    setDisplayedPage(opt.label)
+    toggleSideDrawer();
+
+    if (opt.to === ROUTERPATHS.LOGIN) {
+      logout();
+    } else {
+      history.push(opt.to)
+    }
+  }
+  
+  const list = () => (
+    <div
+      role="presentation"
+      style={{width: 250}}
+    >
+      <List>
+        {SIDE_DRAWER_OPTIONS.map((opt, index) => (
+          <ListItem button key={opt.label + index} onClick={onClickItem.bind(this, opt)}>
+            <ListItemIcon>{getIcon(opt.to)}</ListItemIcon>
+            <ListItemText primary={opt.label} />
+          </ListItem>
+        ))}
+      </List>
     </div>
   );
 
   return (
-    <>
-      <CSSTransition
-        in={props.isDrawerVisible}
-        classNames={"Backdrop"}
-        timeout={550}
-        unmountOnExit
-        appear
-      >
-        <Backdrop toggleSideDrawer={props.toggleSideDrawer} />
-      </CSSTransition>
-
-      <CSSTransition
-        in={props.isDrawerVisible}
-        classNames={"SideDrawer"}
-        timeout={550}
-        unmountOnExit
-        appear
-      >
-        {menu}
-      </CSSTransition>
-    </>
+    <div>
+      <React.Fragment >
+        <Drawer anchor={'left'} open={isDrawerVisible} onClose={toggleSideDrawer}>
+          {list()}
+        </Drawer>
+      </React.Fragment>
+    </div>
   );
-};
+}
 
 const mapStateToProps = (state) => {
   return {
     isDrawerVisible: state.app.isDrawerVisible,
   };
 };
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleSideDrawer: () => dispatch(toggleSideDrawer()),
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SideDrawer);
+
+export default connect(mapStateToProps, null)(withRouter(SideDrawer));

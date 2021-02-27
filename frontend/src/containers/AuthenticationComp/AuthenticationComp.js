@@ -1,33 +1,29 @@
 import React, { Component } from "react";
 import { ROUTERPATHS } from "../../constants/constants";
 import axios from "axios";
-import { saveDataFromDatabase } from "../../redux";
 import { connect } from "react-redux";
+import { calculateBmr, calculateDailyCalories } from '../../redux';
 
 class AuthenticationComp extends Component {
-  componentDidMount() {
-    const { token, history, saveDataFromDatabase } = this.props;
+  async componentDidMount() {
+    const { token, history, saveDataLogin, calculateBmr } = this.props;
 
     if (token) {
-      axios
-        .get("/api/getUserData", {
-          headers: { Authorization: token },
-        })
-        .then((res) => {
-          //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
-          saveDataFromDatabase(res.data.userData);
-          console.log(
-            "FROM AUTHENTICATIONCOMP - JWT WAS FOUND - MOVING TO HOME"
-          );
-          history.push(
-            history.location.state
-              ? history.location.state.from.pathname
-              : ROUTERPATHS.HOME
-          );
-        })
-        .catch(() => {
-          console.log("SERVER ISSUE");
-        });
+      try {
+        const res = await axios.get("/api/getUserData", { headers: { Authorization: token } });
+        //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
+        saveDataLogin(res.data.userData, token);
+        calculateBmr(res.data.userData.credentials);
+        calculateDailyCalories();
+        console.log("FROM AUTHENTICATIONCOMP - JWT WAS FOUND - MOVING TO HOME");
+        history.push(
+          history.location.state
+            ? history.location.state.from.pathname
+            : ROUTERPATHS.HOME
+        );
+      } catch (e) {
+        console.log("SERVER ISSUE");
+      }
     } else {
       console.log(
         "FROM AUTHENTICATIONCOMP - JWT WAS NOT FOUND - MOVING TO LOGIN"
@@ -47,11 +43,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    saveDataFromDatabase: (userData) =>
-      dispatch(saveDataFromDatabase(userData)),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  calculateBmr: (credentials) => dispatch(calculateBmr(credentials)),
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationComp);

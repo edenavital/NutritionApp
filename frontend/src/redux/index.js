@@ -1,13 +1,14 @@
 export { showNotification } from "./notification/notificationActions";
 
 export {
-  saveDataFromDatabase,
   resetStateUser,
   saveDataLogin,
   addFood,
   removeFood,
   increaseDecreaseFood,
   setImage,
+  calculateBmr,
+  calculateDailyCalories
 } from "./user/userActions";
 
 export {

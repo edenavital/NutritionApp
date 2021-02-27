@@ -1,11 +1,21 @@
 {
-  "devConfig": {
+  "devConfigOld": {
     "user": "postgres",
     "database": "nutrition",
     "password": "1a1a1a",
     "host": "localhost",
     "port": 5432,
     "max": 10
+  },
+  "dbConfig": {
+    "user": "bvbfusozllwkun",
+    "database": "d3pn6nb6jg6kkc",
+    "password": "17cbd0473a047a771685592709b97052b07784f516af4e857139ef22f95dace2",
+    "connectionString": "postgres://bvbfusozllwkun:17cbd0473a047a771685592709b97052b07784f516af4e857139ef22f95dace2@ec2-50-17-178-87.compute-1.amazonaws.com:5432/d3pn6nb6jg6kkc",
+    "host": "ec2-50-17-178-87.compute-1.amazonaws.com",
+    "port": 5432,
+    "max": 10,
+    "ssl": { "rejectUnauthorized": false }
   },
   "jwtSecret": "blaasdczxas"
 }
