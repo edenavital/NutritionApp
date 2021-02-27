@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "./Home.css";
 import Icon from "../../components/Icon/Icon";
 import { connect } from "react-redux";
 import Pie from "../../components/Pie/Pie";
@@ -9,9 +8,22 @@ import { optionsDefault, optionsMobile } from "../../components/Pie/pieOptions";
 import { ROUTERPATHS } from "../../constants/constants";
 import ProfileAvatar from '../../components/ProfileAvatar/ProfileAvatar'
 import { Typography } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
+import CardSection from '../../components/CardSection/CardSection';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+      backgroundColor: "#008000d4",
+  },
+  homeSection: {
+    
+  }
+  
+}));
 
 const Home = ({ name, bmr, currentCalories }) => {  
-  
+  const classes = useStyles();
+
   const getTip = () => {
     const fullPrecentages = (currentCalories / bmr) * 100;
     const roundedPrecentages = Math.floor(fullPrecentages / 10) * 10;
@@ -28,12 +40,14 @@ const Home = ({ name, bmr, currentCalories }) => {
         </div>
 
         <div className="home-bottom-wrapper">
-
           {name && <h4>Welcome {name}</h4>}
-          {bmr && <Typography>{`Your BMR calculation is ${bmr}`}</Typography>}
+          <CardSection
+            topTitle={`Your BMR calculation is ${bmr}`}
+            bottomTitle={`You consumed ${currentCalories} calories today`}
+            bottomSubtitle={getTip()}
+          />
           
-          <Typography>{ `You consumed ${currentCalories} today` }</Typography>
-          <Typography>{ getTip() }</Typography>
+          
         </div>
 
       </div>
