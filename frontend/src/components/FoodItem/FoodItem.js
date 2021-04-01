@@ -25,7 +25,7 @@ const FoodItem = ({ token, id, name, addFood, increaseDecreaseFood, calories, ..
       } else {
         addFood(addedFood);
       }
-      calculateDailyCalories()
+      // calculateDailyCalories()
     } catch (err) {
       console.log(err)
     }

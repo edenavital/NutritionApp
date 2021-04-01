@@ -6,7 +6,7 @@ import {
   ADD_FOOD,
   REMOVE_FOOD,
   INCREASE_DECREASE_FOOD,
-  UPDATE_USER_CREDENTIALS,
+  UPDATE_USER_CREDENTIALS, 
   CALCULATE_BMR,
   CALCULATE_DAILY_CALORIES
 } from "./userTypes";
@@ -90,8 +90,12 @@ export const setImage = (files) => {
   };
 };
 
-//Calculating BMR - callback only for login
-export const calculateBmr = ({ height, weight, age, gender }) => {
+//Calculating BMR
+export const calculateBmr = () => {
+  const state = store.getState();
+  let { height, weight, age, gender } = state.user && state.user.credentials;
+
+
   height = parseFloat(height * 60);
   weight = parseFloat(weight);
 

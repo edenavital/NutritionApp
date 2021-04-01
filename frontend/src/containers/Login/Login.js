@@ -33,6 +33,7 @@ class Login extends Component {
     this.setState({ person: updatedPerson });
   };
   onSubmitForm = (e) => {
+    const { saveDataLogin, calculateBmr, history } = this.props;
     e.preventDefault();
     const person = this.state.person;
 
@@ -42,12 +43,12 @@ class Login extends Component {
         const { data: { userData } } = res;
         //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
         showNotification(NOTIFICATION_TYPES.SUCCESS, "SUCCESS LOGIN");
-        this.props.saveDataLogin(userData);
-        this.props.calculateBmr(userData.credentials);
+        saveDataLogin(userData);
+        calculateBmr(userData.credentials)
         localStorage.setItem("JWT", userData.token);
-        this.props.history.push("/home");
+        history.push("/home");
       })
-      .catch((res) => {
+      .catch((e) => {
         console.log("Credentials not match ...");
         showNotification(
           NOTIFICATION_TYPES.ERROR,

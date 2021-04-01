@@ -8,6 +8,9 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import FoodIlustration from '../../assets/icons/banner_ilustration.jpg'
+import { useHistory } from 'react-router-dom';
+import { ROUTERPATHS } from '../../constants/constants';
+
 const useStyles = makeStyles({
   root: {
     maxWidth: 400,
@@ -20,17 +23,18 @@ const useStyles = makeStyles({
 
 const CardSection = ({topTitle, bottomTitle, bottomSubtitle}) => {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     
     <Card className={classes.root}>
 
-        <CardMedia
-          component="img"
-          alt="Food Ilustration"
-          height="100%"
-          image={FoodIlustration}
-        />
+      <CardMedia
+        component="img"
+        alt="Food Ilustration"
+        height="100%"
+        image={FoodIlustration}
+      />
     
       
       <CardContent>
@@ -46,10 +50,10 @@ const CardSection = ({topTitle, bottomTitle, bottomSubtitle}) => {
         </CardContent>
 
       <CardActions>
-        <Button size="small" color="primary" classes={{root: classes.buttons}}>
+        <Button size="small" color="primary" classes={{root: classes.buttons}} onClick={() => history.push(ROUTERPATHS.FOOD)}>
           Add Food
         </Button>
-        <Button size="small" color="primary" classes={{root: classes.buttons}}>
+        <Button size="small" color="primary" classes={{root: classes.buttons}} onClick={() => history.push(ROUTERPATHS.FOOD_LIST)}>
           Remove Food
         </Button>
       </CardActions>

@@ -14,7 +14,7 @@ class AuthenticationComp extends Component {
         //FETCH THE ARRAY OF OBJECT OF THE USER SO YOU WILL HAVE THE DATA OF HIM! FETCH IT INTO REDUX!
         saveDataLogin(res.data.userData, token);
         calculateBmr(res.data.userData.credentials);
-        calculateDailyCalories();
+        // calculateDailyCalories();
         console.log("FROM AUTHENTICATIONCOMP - JWT WAS FOUND - MOVING TO HOME");
         history.push(
           history.location.state
