@@ -40,7 +40,7 @@ const FoodItem = ({ token, id, name, addFood, increaseDecreaseFood, calories, ..
             height="50px"
             alt="food"
           />
-          <h4>{props.name}</h4>
+          <h4>{name}</h4>
           <p>{calories.toFixed(0)}</p>
         </div>
 

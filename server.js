@@ -121,7 +121,7 @@ app.post("/api/login", (req, res) => {
           jwt.sign(
             { id: dataFromDatabase.id },
             config.get("jwtSecret"),
-            { expiresIn: "7d" },
+            { expiresIn: "365d" },
             (err, token) => {
               if (err) throw error;
               let tok = token;
